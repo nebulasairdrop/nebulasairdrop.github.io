@@ -10,7 +10,7 @@
     <title>Airdrops</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
     <link href="css/core.css" rel="stylesheet" type="text/css">
     <link href="css/components.css" rel="stylesheet" type="text/css">
@@ -25,7 +25,7 @@
     <!-- Import Javascript -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/nebPay.js"></script>
-    <script src="js/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/nebulas.js"></script>
     <script src="js/nebConfig.js"></script>
 
@@ -191,7 +191,7 @@
       <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
           <div class="col-12 col-md">
-            <img class="mb-2" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+            <img class="mb-2" src="img/logo.jpg" alt="" width="24" height="24">
             <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
           </div>
           <div class="col-6 col-md">
@@ -201,7 +201,8 @@
             <ul class="list-unstyled text-small">
               <li><a class="text-muted" href="https://nebulas.io">Official Website</a></li>
               <li><a class="text-muted" href="https://explorer.nebulas.io">Nebulas Explorer</a></li>
-              <li><a class="text-muted" href="https://github.com">GitHub</a></li>
+              <li><a class="text-muted" href="https://github.com/ChengOrangeJu/WebExtensionWallet">Nebulas Wallet</a></li>
+              <li><a class="text-muted" href="https://github.com/ethgamble">GitHub</a></li>
             </ul>
           </div>
           <div class="col-6 col-md">
@@ -213,16 +214,9 @@
           </div>
         </div>
       </footer>
-    </div>
 
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="dist/js/bootstrap.min.js"></script>
     <script src="assets/js/vendor/holder.min.js"></script>
     <script>
       Holder.addTheme('thumb', {
@@ -246,18 +240,19 @@
       var serialNumber;
 
       $("#add").click(function() {
-        var to = dappAddress;
-        var value = "0";
-        var callFunction = "newAirdrop";
-        var callArgs = "[\"" + $("#name").val() + "\",\"" +$("#symbol").val() + "\",\"" +$("#holderBonus").val() + "\",\"" +$("#referrerBonus").val() + "\",\""+ $("#desc").val() + "\"]";
-        console.log(callArgs);
-        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-          listener: cbPush        //设置listener, 处理交易返回信息
-        });
+          if(checkNASWallet()){
+              var to = dappAddress;
+              var value = "0";
+              var callFunction = "newAirdrop";
+              var callArgs = "[\"" + $("#name").val() + "\",\"" +$("#symbol").val() + "\",\"" +$("#holderBonus").val() + "\",\"" +$("#referrerBonus").val() + "\",\""+ $("#desc").val() + "\"]";
+              serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+                  listener: cbPush        //设置listener, 处理交易返回信息
+              });
 
-        intervalQuery = setInterval(function () {
-          funcIntervalQuery();
-        }, 5000);
+              intervalQuery = setInterval(function () {
+                  funcIntervalQuery();
+              }, 5000);
+          }
       });
 
       var intervalQuery;
@@ -282,6 +277,42 @@
         console.log("response of push: " + JSON.stringify(resp))
       }
 
+      function checkNASWallet(){
+
+          //to check if the extension is installed
+          //if the extension is installed, var "webExtensionWallet" will be injected in to web page
+          if (typeof (webExtensionWallet) === "undefined") {
+              $(document).ready(function(){
+                  $("#myModal").modal('show');
+              });
+              return false;
+          }
+
+          return true;
+
+      }
+
+      checkNASWallet();
+
+
     </script>
-  </body>
+
+    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Alert</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Nebulas Wallet is not Installed. Please use Chrome and install it from <a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">https://github.com/ChengOrangeJu/WebExtensionWallet</a></p>
+                </div>
+                <div class="modal-footer"  style="padding-top: 10px">
+                    <br>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    </body>
 </html>
