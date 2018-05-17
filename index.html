@@ -346,23 +346,25 @@
       }
 
       function active(index, _active){
-        var to = dappAddress;
-        var value = "0";
-        var callFunction = "active";
-        var callArgs;
-        if(_active){
-          callArgs = "[" + index + ", " + 1 +"]";
-        } else {
-          callArgs = "[" + index + ", " + 0 +"]";
-        }
-        console.log(callArgs);
-        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-          listener: cbPush        //设置listener, 处理交易返回信息
-        });
+        if(checkNASWallet()) {
+          var to = dappAddress;
+          var value = "0";
+          var callFunction = "active";
+          var callArgs;
+          if (_active) {
+            callArgs = "[" + index + ", " + 1 + "]";
+          } else {
+            callArgs = "[" + index + ", " + 0 + "]";
+          }
+          console.log(callArgs);
+          serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+            listener: cbPush        //设置listener, 处理交易返回信息
+          });
 
-        intervalQuery = setInterval(function () {
-          funcIntervalQuery();
-        }, 5000);
+          intervalQuery = setInterval(function () {
+            funcIntervalQuery();
+          }, 5000);
+        }
       }
 
       var intervalQuery;
