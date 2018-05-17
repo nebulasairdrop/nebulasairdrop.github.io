@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Airdrops</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="css/core.css" rel="stylesheet" type="text/css">
+    <link href="css/components.css" rel="stylesheet" type="text/css">
+    <link href="css/colors.css" rel="stylesheet" type="text/css">
+    <link href="css/summernote.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="airdrop.css" rel="stylesheet">
+
+    <!-- Import Javascript -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/nebPay.js"></script>
+    <script src="js/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
+    <script src="js/nebulas.js"></script>
+    <script src="js/nebConfig.js"></script>
+    <script src="js/mustache.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <img src="img/logo.jpg" height="50" width="50">
+      <h5 class="my-0 mr-md-auto font-weight-normal">&nbsp;Airdrops Gifto You</h5>
+      <input type="text" id="address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="address">
+      <button type="button" class="btn btn-primary" onclick="search()">Search</button>
+      <nav class="my-2 my-md-0 mr-md-3">
+      </nav>
+      <a class="btn btn-outline-primary" href="new.html#">New Airdrop</a>
+    </div>
+
+    <section class="airdrop-section">
+      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">What is a crypto airdrop?</h1>
+        <p class="lead">A​ ​crypto airdrop​ ​is​ ​when​ ​a​ ​blockchain project distribute​s free​ ​tokens or​ ​coins to​ ​the​ crypto ​community. To​ ​be​ ​a​ ​recipient​ ​of​ ​an​ crypto ​airdrop often​ ​the​ ​only​ ​requirement​ ​is​ ​that​ ​you​ ​have​ ​coins from the relevant blockchain stored​ ​in​ ​your​ ​wallet. </p>
+      </div>
+
+      <div class="container" >
+        <div class="card-deck mb-2 text-center" id="airdrops">
+        </div>
+      </div>
+    </section>
+
+      <section class="info-section" id="info">
+        <div class="container">
+          <div class="row">
+            <h2 class="display-5">A & Q</h2>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>What is a crypto airdrop?</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p style="word-break: break-word; color: rgb(51, 51, 51);">A<b>​ ​crypto airdrop</b>​ ​is​ ​when​ ​a​ ​blockchain project distribute​s free​ ​tokens or​ ​coins to​ ​the​ crypto ​community.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">To​ ​be​ ​a​ ​recipient​ ​of​ ​an​ crypto ​airdrop often​ ​the​ ​only​ ​requirement​ ​is​ ​that​ ​you​ ​have​ ​coins from the relevant blockchain stored​ ​in​ ​your​ ​wallet. Examples of this format of airdrops are <a href="https://airdropalert.com/airdrop/2" target="_blank">Byteball</a>, <a href="https://airdropalert.com/airdrop/21" target="_blank">Stellar lumens</a> and <a href="https://airdropalert.com/airdrop/46" target="_blank">OmiseGo</a>. The​ ​format​ ​of​ ​these​ crypto ​giveaways​ ​is​ ​usually​ ​like​ ​this:​ ​At​ ​a​ ​pre-announced​ ​time​ ​the​ ​project​ ​behind the​ ​event​ ​will​ ​take​ ​a​ ​”snapshot” ​of​ ​the​ ​blockchain,​ ​and​ ​anyone​ ​holding​ ​Ether or Bitcoin​ ​at​ ​that​ ​point​ ​will​ ​receive​ ​a certain number​ ​of​ ​free​ ​tokens.​ ​This can also be done on other blockchains, but Ethereum, Bitcoin, Nebulas are the most used for this airdrop format.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Currently the most commen crypto airdrops require a few simple social media task. These projects use an airdrop as a marketing campaign. Examples of this format are <a href="https://airdropalert.com/airdrop/793" target="_blank">Shivom</a>, <a href="https://airdropalert.com/airdrop/956" target="_blank">TraXion</a> and <a href="https://airdropalert.com/airdrop/658" target="_blank">Sandblock</a>.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">A <b>Hardfork</b> is a less common, but well known way to do an airdrop. At a certain block number a chain Hard fork's in to two separate chains. if both chains get miner and community support you now have 2 separate coins! The most famous examples of this are <a href="https://bitcoincash.org" target="_blank">Bitcoin Cash</a> &amp; <a href="https://ethereumclassic.github.io/" target="_blank">Ethereum Classic</a>.</p>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>How do I get free crypto?</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p style="word-break: break-word; color: rgb(51, 51, 51);">Every <b>airdrop</b> has a different set of rules.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Currently new airdrops require retweets on Twitter, usually you need a minimum amount of followers. Make sure you have active social media accounts to be eligible for these free crypto tokens.<br><br>Most airdrops of today require to join their Telegram group so make sure to download the Telegram app.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Other possible requirements are:</p><ol><li style="word-break: break-word; color: rgb(51, 51, 51);">Reddit</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Facebook</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Medium</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Youtube</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Slack &amp; Discord</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Linkedin</li></ol><p style="word-break: break-word; color: rgb(51, 51, 51);">Check your wallets regularly to see if you received surprise airdrops. Platforms like Waves or Komodo have delivered airdrops for Waves or Komodo holders without any announcement.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">If​ ​you​ ​are​ ​an​ ​investor​ ​holding​ ​a​ ​diverse​ ​portfolio​ ​of​ ​coins​ ​you​ ​are​ ​likely​ ​to​​ be receiving​ ​more​ ​and​ ​more free​ crypto ​as​ ​this​ ​concept​ ​keeps​ ​gaining​ ​popularity.</p>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>Why do ICO's give away free tokens?</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p style="word-break: break-word; color: rgb(51, 51, 51);">If&nbsp;you're not paying for the&nbsp;product,&nbsp;you are the product. With doing an airdrop the project creates awareness about their ICO or token. It brings people to the project that otherwise would not have owned or heard about it. It could lead to token price appreciation, since people value a token they own higher than a token they don't own. This is called the endowment effect.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Airdrops create a community/network of people who own the tokens. If you would list the token distribution after an ICO in a pie graph, a large part of the pie is still owned by the Dev's or project. Another large part is owned by people who joined a pre-sale. And a reasonable part is owned by people who invested in the ICO. An airdrop adds an extra slice to the pie and that slice will have the most people in it.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">An airdrop also plants a seed. When you look at Coinmarketcap you will see a list of thousand coins. Just on page one you can see 100 coins listed. However if you have or had a coin that name is still in your brain. The seed is planted and whenever you check Coinmarketcap and scroll down, the name of the free e-Coin will jump out and people will check how it is doing. If they see an article that the free e-Token is doing well or bad, they are more likely to click it if they own it or previously have owned it. It's just like advertising!</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Looking​ ​forward,​ ​possible​ crypto ​airdrop​ ​developments​ ​could​ ​be​ ​projects​ ​starting​ ​to​ ​gift​ ​tokens​ ​to​ ​users​ ​who hold​ ​tokens​ ​in​ ​projects​ ​that​ ​overlap​ ​or​ ​have​ ​some​ ​synergy​ ​with​ ​their​ ​own.​ ​We​ ​could​ ​also​ ​see​ ​projects encouraging​ ​other​ ​projects​ ​to​ ​airdrop​ ​to​ ​their​ ​token​ ​owners​ ​and​ ​receiving​ ​some​ ​benefit​ ​in​ ​return. Like we already see happening at the Nebulas, Ethereum, Waves, NXT &amp; Komodo platforms.</p>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>Where do I sell my airdrops?</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p style="word-break: break-word; color: rgb(51, 51, 51);">So now you have free crypto, what do you do? Many coins that do airdrops are PRE-ICO or just finished their ICO. This often means it is not traded yet on the bigger exchanges. You can check out our exchange page to see where you can best <a href="https://coinmarketcap.com" target="_blank">sell your crypto airdrops</a>.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">We suggest you make an account at all exchanges we listed so you can easily sell and receive your crypto airdrops.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">We hope you receive as many airdrops as possible and that they increase in value over time. Many projects that are now top 40 coins have done airdrops in their early stages, like NAS, DECRED &amp; Ripple. You don't need to immediately sell your free crypto, there is nothing wrong with being a HODLer.</p>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>How do I keep my cryptocurrency safe?</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p style="word-break: break-word; color: rgb(51, 51, 51);">The safest way to store your airdrops are hardware &amp; cold storage wallets. These wallets store your coins offline, and therefore protect them from being hacked. There are a number of hardware wallets available. We would advise to use the&nbsp;<a href="https://www.ledgerwallet.com/r/5530" target="_blank" rel="noopener noreferrer">Ledger Wallet Nano S</a>&nbsp;or&nbsp;<a href="https://trezor.io/?a=airdropalert.com" target="_blank" rel="noopener noreferrer">Trezor</a>.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Not all cryptocurrency can be stored in hardware wallets. We advise you to store your crypto in wallets where you control your private keys. You don't want your free crypto to be stolen!</p><p style="word-break: break-word; color: rgb(51, 51, 51);">To avoid scams we have a few general rules:</p><ol><li style="word-break: break-word; color: rgb(51, 51, 51);"><span style="color: rgb(0, 0, 0);">Never give your private keys!</span></li><li style="word-break: break-word; color: rgb(51, 51, 51);">Use 2 Factor Authentication on your wallets</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Be careful downloading wallets of smaller project, possibly use a Virtual machine.</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Never click on links redirecting to wallets</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Don’t use your main email address to apply for airdrops</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Don’t re-use your passwords when you register on a website</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Don’t send small amounts of crypto to receive your airdrop<br></li></ol>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>Earn a bounty by alerting us of scams</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p><span style="color: rgb(51, 51, 51);">We strive to keep our website free of scam projects. Our team provides research behind each coin we list. However it is still possible we miss a scam project. Recently some projects changed their google form asking for private keys after we list them on our website. We award people with $5 worth in NAS if you email us about a scam on our website under upcoming or active airdrops. Help us to keep the site clean and prevent other people to be a victim of a scam.&nbsp;</span><span style="color: rgb(51, 51, 51);">Contact us at:&nbsp;</span><a href="mailto:support@nasdrop.info" style="background-color: rgb(255, 255, 255);">support@nasdrop.info</a><br></p>
+                </div>
+              </div>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <div class="panel info-panel"><div class="panel-heading">
+                <h3>List your airdrop!</h3>
+              </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                <div class="info-content">
+                  <p>Do you want to list your airdrop on <a href="http://nasdrop.info" target="_blank">nasdrop.info</a>?</p><p><span style="color: rgb(51, 51, 51);">Please note that listing on NasDrop is free. Because we have a Smart Contract on Nebulas Mainnet and run the website as a Dapp, it just take several seconds for your Airdrop to be published.<br></span><br>Go ahead and <a href="new.html" target="_blank">create your airdrop</a>!</p>
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+          function toggleVisibility(event) {
+            event.preventDefault();
+
+            var findAncestor = function (el, cls) {
+              while ((el = el.parentElement) && !el.classList.contains(cls));
+              return el;
+            }
+
+            var infoPanel = findAncestor(event.target, 'info-panel');
+
+            var panelContent = infoPanel.childNodes[1];
+
+            if (panelContent.style.overflow === "hidden") {
+              panelContent.style.overflow = '';
+              panelContent.style.height = '';
+            } else {
+              panelContent.style.overflow = 'hidden';
+              panelContent.style.height = '0px';
+            }
+          }
+
+          var elements = document.getElementsByClassName('panel-heading');
+          for (var index in elements) {
+            var element = document.getElementsByClassName('panel-heading')[index];
+
+            if (element.addEventListener) {
+              element.addEventListener('click', toggleVisibility);
+            }
+          }
+        </script>
+      </section>
+
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+          <div class="col-12 col-md">
+            <img class="mb-2" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="24" height="24">
+            <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
+          </div>
+          <div class="col-6 col-md">
+          </div>
+          <div class="col-6 col-md">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" href="https://nebulas.io">Official Website</a></li>
+              <li><a class="text-muted" href="https://explorer.nebulas.io">Nebulas Explorer</a></li>
+              <li><a class="text-muted" href="https://github.com">GitHub</a></li>
+            </ul>
+          </div>
+          <div class="col-6 col-md">
+            <h5>Contact</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted">Wechat: tt_666666666</a></li>
+              <li><a class="text-muted" href="mailto:admin@taofeng.me">Email</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="dist/js/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/holder.min.js"></script>
+    <script>
+      Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+      });
+    </script>
+
+    <script>
+
+      "use strict";
+      //here we use neb.js to call the "get" function to search from the Dictionary
+      var nebulas = require("nebulas");
+      var Account = nebulas.Account;
+      var neb = new nebulas.Neb();
+      neb.setRequest(new nebulas.HttpRequest(rpcURL));
+
+      // 搜索: 查找airdrops
+
+      var from = Account.NewAccount().getAddressString();
+
+      var len = 0;
+      var value = "0";
+      var nonce = "0";
+      var gas_price = "1000000";
+      var gas_limit = "2000000";
+      var callFunction = "len";
+      var callArgs = ""; //in the form of ["args"]
+      var contract = {
+        "function": callFunction,
+        "args": callArgs
+      };
+
+      neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+        if(resp.result > 0){
+          len = resp.result;
+          for(var i = 0; i < resp.result; i++){
+            callFunction = "index";
+            callArgs = "[" + i + "]"; //in the form of ["args"]
+            contract = {
+              "function": callFunction,
+              "args": callArgs
+            };
+            neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp){
+              addAirdrop(resp);
+              });
+          }
+        } else {
+          $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
+        }
+      }).catch(function (err) {
+        //cbSearch(err)
+        console.log("error:" + err.message)
+      });
+
+      function search(){
+        for(var i = 0; i < len; i++){
+          callFunction = "query";
+          callArgs = "[" + i + ", \"" + $("#address").val() +"\"]"; //in the form of ["args"]
+          contract = {
+            "function": callFunction,
+            "args": callArgs
+          };
+
+          neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+            var result = resp.result;
+            if(result === 'null'){
+              console.log("null");
+            } else{
+              try{
+                result = JSON.parse(result);
+              }catch (err){
+                //result is the error message
+                console.log("error:" + err.message)
+              }
+              var airdrop;
+              if(!!result.balance) {
+                airdrop = $("#airdrop" + result.index);
+                airdrop.html("Got " + result.balance + " Token").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
+              } else {
+                airdrop = $("#airdrop" + result.index);
+                if(airdrop.val() == 0){
+                  airdrop.html("Airdrop Over").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
+                } else {
+                  airdrop.html("Get Airdrop").removeClass("btn-outline-primary").addClass("btn-primary").prop("onclick", null).off('click').click(function(){ receive(result.index); });
+                }
+              }
+
+            }
+          }).catch(function (err) {
+            //cbSearch(err)
+            console.log("error:" + err.message)
+          });
+        }
+      }
+
+      function addAirdrop(resp){
+        var result = resp.result;    ////resp is an object, resp.result is a JSON string
+        if(result === 'null'){
+          $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
+        } else{
+          //if result is not null, then it should be "return value" or "error message"
+          try{
+            result = JSON.parse(result);
+          }catch (err){
+            //result is the error message
+          }
+
+          if(!!result.name) {
+            var skeleton;
+            var data;
+            if(result.active){
+              skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, false)"><img src="img/stop.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="n1UUr6ipRiboc..." value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" onclick="receive({{airdropIndex}})" value="{{active}}">Get Airdrop</button></div></div>';
+              data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 1};
+            } else {
+              skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, true)"><img src="img/start.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="n1UUr6ipRiboc..." value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-outline-primary" id="airdrop{{airdropIndex}}" value="{{active}}">Airdrop Over</button></div></div>';
+              data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 0 };
+            }
+
+            var html = Mustache.to_html(skeleton, data);
+            $("#airdrops").append(html);
+          } else {
+            $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
+          }
+        }
+      }
+
+      // 添加信息功能: 像super-dictionary 中添加词条
+      var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+      var nebPay = new NebPay();
+      var serialNumber;
+
+      function receive(index){
+        var to = dappAddress;
+        var value = "0";
+        var callFunction = "receive";
+        var callArgs = "[" + index + ", \"" +$("#referrer" + index).val() + "\"]";
+        console.log(callArgs);
+        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+          listener: cbPush        //设置listener, 处理交易返回信息
+        });
+
+        intervalQuery = setInterval(function () {
+          funcIntervalQuery();
+        }, 5000);
+      }
+
+      function active(index, _active){
+        var to = dappAddress;
+        var value = "0";
+        var callFunction = "active";
+        var callArgs;
+        if(_active){
+          callArgs = "[" + index + ", " + 1 +"]";
+        } else {
+          callArgs = "[" + index + ", " + 0 +"]";
+        }
+        console.log(callArgs);
+        serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+          listener: cbPush        //设置listener, 处理交易返回信息
+        });
+
+        intervalQuery = setInterval(function () {
+          funcIntervalQuery();
+        }, 5000);
+      }
+
+      var intervalQuery;
+
+      function funcIntervalQuery() {
+        nebPay.queryPayInfo(serialNumber)   //search transaction result from server (result upload to server by app)
+                .then(function (resp) {
+                  console.log("tx result: " + resp);   //resp is a JSON string
+                  var respObject = JSON.parse(resp);
+                  if(respObject.code === 0){
+                    clearInterval(intervalQuery);
+                  }
+                })
+                .catch(function (err) {
+                  console.log(err);
+                });
+      }
+
+      function cbPush(resp) {
+        console.log("response of push: " + JSON.stringify(resp))
+      }
+
+    </script>
+
+  </body>
+</html>
