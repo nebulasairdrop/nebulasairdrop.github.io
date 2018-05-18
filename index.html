@@ -310,28 +310,6 @@
         }
       }
 
-      function parse_query_string(query) {
-        var vars = query.split("&");
-        var query_string = {};
-        for (var i = 0; i < vars.length; i++) {
-          var pair = vars[i].split("=");
-          var key = decodeURIComponent(pair[0]);
-          var value = decodeURIComponent(pair[1]);
-          // If first entry with this name
-          if (typeof query_string[key] === "undefined") {
-            query_string[key] = decodeURIComponent(value);
-            // If second entry with this name
-          } else if (typeof query_string[key] === "string") {
-            var arr = [query_string[key], decodeURIComponent(value)];
-            query_string[key] = arr;
-            // If third or later entry with this name
-          } else {
-            query_string[key].push(decodeURIComponent(value));
-          }
-        }
-        return query_string;
-      }
-
       function addAirdrop(resp){
         var result = resp.result;    ////resp is an object, resp.result is a JSON string
         if(result === 'null'){
@@ -344,11 +322,11 @@
             //result is the error message
           }
 
-          var query = window.location.search.substring(1);
-          var qs = parse_query_string(query);
+
+          var urlParams = new URLSearchParams(window.location.search);
           var referrer;
-          if(!!qs.referrer){
-            referrer = qs.referrer;
+          if(urlParams.has('referrer')){
+            referrer = urlParams.get('referrer');
           } else{
             referrer = "n1UUr6ipRiboc...";
           }
@@ -357,7 +335,7 @@
             var skeleton;
             var data;
             if(result.active){
-              if(!!qs.referrer){
+              if(urlParams.has('referrer')){
                 skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, false)"><img src="img/stop.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="{{referrer}}" value="{{referrer}}"><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" onclick="receive({{airdropIndex}})" value="{{active}}">Get Airdrop</button></div></div>';
               } else {
                 skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, false)"><img src="img/stop.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="{{referrer}}" value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" onclick="receive({{airdropIndex}})" value="{{active}}">Get Airdrop</button></div></div>';
@@ -450,23 +428,27 @@
           });
           return false;
         }
-
         return true;
-
       }
 
 
       function generateLink(){
-        var url = document.location.href.split('?')[0];
+        var url_refer = document.location.href;
+
+        if(url_refer.lastIndexOf('?') >0){
+          url_refer = url_refer.split("?")[0];
+        }
+        if(url_refer.lastIndexOf('#') > 0){
+          url_refer = url_refer.split("#")[0];
+          console.log(url_refer);
+        }
         var address = $("#referrer_address").val();
-        console.log(address);
         if(Account.isValidAddress(address)){
-          var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url}}?referrer={{address}}"><p class="lead">{{url}}?referrer={{address}}</p></a></div>';
-          var data = { url: url, address: address};
+          var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
+          var data = { url_refer: url_refer, address: address};
           var html = Mustache.to_html(skeleton, data);
           $("#referrer_link").html('').append(html);
         }
-
       }
 
       checkNASWallet();
