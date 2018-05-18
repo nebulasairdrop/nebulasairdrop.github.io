@@ -32,27 +32,47 @@
 
   </head>
 
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-      <img src="img/logo.jpg" height="50" width="50">
-      <h5 class="my-0 mr-md-auto font-weight-normal">&nbsp;Airdrops Gifto You</h5>
-      <input type="text" id="address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="address">
-      <button type="button" class="btn btn-primary" onclick="search()" style="margin: 10px">Search</button>
-      <nav class="my-2 my-md-0 mr-md-3">
-      </nav>
-      <a class="btn btn-outline-primary" href="new.html#">New Airdrop</a>
-    </div>
-
-    <section class="airdrop-section">
-      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">What is a crypto airdrop?</h1>
-        <p class="lead">A​ ​crypto airdrop​ ​is​ ​when​ ​a​ ​blockchain project distribute​s free​ ​tokens or​ ​coins to​ ​the​ crypto ​community. To​ ​be​ ​a​ ​recipient​ ​of​ ​an​ crypto ​airdrop often​ ​the​ ​only​ ​requirement​ ​is​ ​that​ ​you​ ​have​ ​coins from the relevant blockchain stored​ ​in​ ​your​ ​wallet. </p>
+      <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <img src="img/logo.jpg" height="50" width="50">
+        <h5 class="my-0 mr-md-auto font-weight-normal">&nbsp;Airdrops Gifto You</h5>
+        <input type="text" id="address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="address">
+        <button type="button" class="btn btn-primary" onclick="search()" style="margin: 10px">Search</button>
+        <nav class="my-2 my-md-0 mr-md-3">
+        </nav>
+        <a class="btn btn-outline-primary" href="new.html#">New Airdrop</a>
       </div>
 
-      <div class="container" >
-        <div class="card-deck mb-2 text-center" id="airdrops">
+      <section class="airdrop-section">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+          <h1 class="display-4">What is a crypto airdrop?</h1>
+          <p class="lead">A​ ​crypto airdrop​ ​is​ ​when​ ​a​ ​blockchain project distribute​s free​ ​tokens or​ ​coins to​ ​the​ crypto ​community. To​ ​be​ ​a​ ​recipient​ ​of​ ​an​ crypto ​airdrop often​ ​the​ ​only​ ​requirement​ ​is​ ​that​ ​you​ ​have​ ​coins from the relevant blockchain stored​ ​in​ ​your​ ​wallet. </p>
         </div>
-      </div>
-    </section>
+
+
+        <div class="container" >
+          <div class="card-deck mb-2 text-center" id="airdrops">
+          </div>
+        </div>
+      </section>
+
+      <section class="referrer-section" id="referrer">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+          <h2 class="display-5">Why You Need a Referrer Link?</h2>
+          <p class="lead">You can get invitation bonus each time your friends get airdrops through your ​referrer link. And your friends will get extra token from your ​referrer link.</p>
+        </div>
+        <div class="container">
+          <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+              <div class="card-body">
+                <input type="text" id="referrer_address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="referrer_address">
+                <button type="button" class="btn btn-primary" onclick="generateLink()" style="margin: 10px">Generate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="referrer_link">
+        </div>
+      </section>
 
       <section class="info-section" id="info">
         <div class="container">
@@ -177,14 +197,14 @@
               <li><a class="text-muted" href="https://nebulas.io">Official Website</a></li>
               <li><a class="text-muted" href="https://explorer.nebulas.io">Nebulas Explorer</a></li>
               <li><a class="text-muted" href="https://github.com/ChengOrangeJu/WebExtensionWallet">Nebulas Wallet</a></li>
-              <li><a class="text-muted" href="https://github.com/ethgamble">GitHub</a></li>
+              <li><a class="text-muted" href="https://github.com/ethgamble/ethgamble.github.io">GitHub Source</a></li>
             </ul>
           </div>
           <div class="col-6 col-md">
             <h5>Contact</h5>
             <ul class="list-unstyled text-small">
               <li><a class="text-muted">Wechat: tt_666666666</a></li>
-              <li><a class="text-muted" href="mailto:admin@taofeng.me">Email</a></li>
+              <li><a class="text-muted" href="mailto:admin@taofeng.me">Send Email</a></li>
             </ul>
           </div>
         </div>
@@ -290,6 +310,28 @@
         }
       }
 
+      function parse_query_string(query) {
+        var vars = query.split("&");
+        var query_string = {};
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split("=");
+          var key = decodeURIComponent(pair[0]);
+          var value = decodeURIComponent(pair[1]);
+          // If first entry with this name
+          if (typeof query_string[key] === "undefined") {
+            query_string[key] = decodeURIComponent(value);
+            // If second entry with this name
+          } else if (typeof query_string[key] === "string") {
+            var arr = [query_string[key], decodeURIComponent(value)];
+            query_string[key] = arr;
+            // If third or later entry with this name
+          } else {
+            query_string[key].push(decodeURIComponent(value));
+          }
+        }
+        return query_string;
+      }
+
       function addAirdrop(resp){
         var result = resp.result;    ////resp is an object, resp.result is a JSON string
         if(result === 'null'){
@@ -302,15 +344,28 @@
             //result is the error message
           }
 
+          var query = window.location.search.substring(1);
+          var qs = parse_query_string(query);
+          var referrer;
+          if(!!qs.referrer){
+            referrer = qs.referrer;
+          } else{
+            referrer = "n1UUr6ipRiboc...";
+          }
+
           if(!!result.name) {
             var skeleton;
             var data;
             if(result.active){
-              skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, false)"><img src="img/stop.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="n1UUr6ipRiboc..." value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" onclick="receive({{airdropIndex}})" value="{{active}}">Get Airdrop</button></div></div>';
-              data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 1};
+              if(!!qs.referrer){
+                skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, false)"><img src="img/stop.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="{{referrer}}" value="{{referrer}}"><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" onclick="receive({{airdropIndex}})" value="{{active}}">Get Airdrop</button></div></div>';
+              } else {
+                skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, false)"><img src="img/stop.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="{{referrer}}" value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" onclick="receive({{airdropIndex}})" value="{{active}}">Get Airdrop</button></div></div>';
+              }
+              data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 1, referrer: referrer};
             } else {
-              skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, true)"><img src="img/start.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="n1UUr6ipRiboc..." value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-outline-primary" id="airdrop{{airdropIndex}}" value="{{active}}">Airdrop Over</button></div></div>';
-              data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 0 };
+              skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} & {{holderNum}} Wallets)</small><br><a onclick="active({{airdropIndex}}, true)"><img src="img/start.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / Wallet</small></h1><h4 class="card-title pricing-card-title">{{desc}}</h4><small>Extra <a>{{referrerBonus}}</a>  {{symbol}} for you and your Referrer</small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="{{referrer}}" value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-outline-primary" id="airdrop{{airdropIndex}}" value="{{active}}">Airdrop Over</button></div></div>';
+              data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 0, referrer: referrer};
             }
 
             var html = Mustache.to_html(skeleton, data);
@@ -400,7 +455,23 @@
 
       }
 
+
+      function generateLink(){
+        var url = document.location.href.split('?')[0];
+        var address = $("#referrer_address").val();
+        console.log(address);
+        if(Account.isValidAddress(address)){
+          var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url}}?referrer={{address}}"><p class="lead">{{url}}?referrer={{address}}</p></a></div>';
+          var data = { url: url, address: address};
+          var html = Mustache.to_html(skeleton, data);
+          $("#referrer_link").html('').append(html);
+        }
+
+      }
+
       checkNASWallet();
+
+
 
     </script>
 
