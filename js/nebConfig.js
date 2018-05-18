@@ -1,2 +1,2 @@
-var dappAddress = "n1eXRb1Vzr4TPZvSBq33KQW8SQ2YjTXpbPh";
-var rpcURL = "https://testnet.nebulas.io";
+var dappAddress = "n233EsTRKjH4vCgrR9Yo1opnZSvVRA5f2Xs";
+var rpcURL = "https://mainnet.nebulas.io";
