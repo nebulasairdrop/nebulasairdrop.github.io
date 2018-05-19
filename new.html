@@ -245,37 +245,48 @@
               var value = "0";
               var callFunction = "newAirdrop";
               var callArgs = "[\"" + $("#name").val() + "\",\"" +$("#symbol").val() + "\",\"" +$("#holderBonus").val() + "\",\"" +$("#referrerBonus").val() + "\",\""+ $("#desc").val() + "\"]";
-              serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-                  listener: cbPush        //设置listener, 处理交易返回信息
-              });
+              serialNumber = nebPay.call(to, value, callFunction, callArgs, {
+                listener: function (resp) {
+                  if(resp !== 'Error: Transaction rejected by user'){
+                    $('#packing').modal('show');
+                  }
 
-              intervalQuery = setInterval(function () {
-                  funcIntervalQuery();
-              }, 5000);
+                  var hash = resp.txhash;
+                  recheckTransactionReceipt(hash, function () {
+                    $('#packing').modal('hide');
+                    $('#packing_success').modal('show');
+                    function clearWait(){
+                      clearInterval(wait);
+                      window.location.href = 'index.html';
+                    }
+                    var wait = setInterval(clearWait, 2000);
+                  })
+                }
+              });
           }
       });
 
-      var intervalQuery;
-
-      function funcIntervalQuery() {
-        nebPay.queryPayInfo(serialNumber)   //search transaction result from server (result upload to server by app)
-                .then(function (resp) {
-                  console.log("tx result: " + resp);   //resp is a JSON string
-                  var respObject = JSON.parse(resp);
-                  if(respObject.code === 0){
-                    window.location.href = 'index.html';
-                    clearInterval(intervalQuery);
-                  }
-                })
-                .catch(function (err) {
-                  console.log(err);
-                });
+      function getTransactionReceipt(hash, callback){
+        $.post(rpcURL + '/v1/user/getTransactionReceipt', JSON.stringify({
+          "hash": hash
+        }), function (resp) {
+          callback(resp)
+        })
       }
 
-      function cbPush(resp) {
 
-        console.log("response of push: " + JSON.stringify(resp))
+      function recheckTransactionReceipt(hash, cb) {
+        var task = setInterval(function () {
+          getTransactionReceipt(hash, function (resp) {
+            var status = resp.result.status;
+            if(status == 1){
+              clearInterval(task);
+              cb();
+            }
+          })
+        }, 1000);
       }
+
 
       function checkNASWallet(){
 
@@ -283,7 +294,7 @@
           //if the extension is installed, var "webExtensionWallet" will be injected in to web page
           if (typeof (webExtensionWallet) === "undefined") {
               $(document).ready(function(){
-                  $("#myModal").modal('show');
+                  $("#noWallet").modal('show');
               });
               return false;
           }
@@ -294,7 +305,7 @@
 
     </script>
 
-    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="noWallet" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -311,5 +322,40 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    </body>
+    <div id="packing" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Notice</h4>
+          </div>
+          <div class="modal-body">
+            <p>The transaction is packing. Please wait several seconds.</p>
+          </div>
+          <div class="modal-footer"  style="padding-top: 10px">
+            <br>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div id="packing_success" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Notice</h4>
+          </div>
+          <div class="modal-body">
+            <p>The transaction is packed successful!</p>
+          </div>
+          <div class="modal-footer"  style="padding-top: 10px">
+            <br>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+  </body>
 </html>
