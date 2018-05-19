@@ -201,6 +201,7 @@
               <li><a class="text-muted" href="https://explorer.nebulas.io">Nebulas Explorer</a></li>
               <li><a class="text-muted" href="https://github.com/ChengOrangeJu/WebExtensionWallet">Nebulas Wallet</a></li>
               <li><a class="text-muted" href="https://github.com/ethgamble/ethgamble.github.io">GitHub Source</a></li>
+              <li><a class="text-muted" href="" id="contract">Contract Address</a></li>
             </ul>
           </div>
           <div class="col-6 col-md">
@@ -223,6 +224,7 @@
         fg: '#eceeef',
         text: 'Thumbnail'
       });
+      $("#contract").prop('href','https://explorer.nebulas.io/#/address/'+ dappAddress +'#/').prop('target', '_blank_');
     </script>
 
     <script>
@@ -515,6 +517,8 @@
           }
         }
       }
+
+
     </script>
 
     <div id="noWallet" class="modal fade" tabindex="-1" role="dialog">
