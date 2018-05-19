@@ -269,45 +269,73 @@
         console.log("error:" + err.message)
       });
 
-      function search(){
-        for(var i = 0; i < len; i++){
-          callFunction = "query";
-          callArgs = "[" + i + ", \"" + $("#address").val() +"\"]"; //in the form of ["args"]
-          contract = {
-            "function": callFunction,
-            "args": callArgs
-          };
 
-          neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
-            var result = resp.result;
-            if(result === 'null'){
-              console.log("null");
-            } else{
-              try{
-                result = JSON.parse(result);
-              }catch (err){
-                //result is the error message
-                console.log("error:" + err.message)
-              }
-              var airdrop;
-              if(!!result.balance) {
-                airdrop = $("#airdrop" + result.index);
-                airdrop.html("Got " + result.balance + " Token").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
-              } else {
-                airdrop = $("#airdrop" + result.index);
-                if(airdrop.val() == 0){
-                  airdrop.html("Airdrop Over").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
-                } else {
-                  airdrop.html("Get Airdrop").removeClass("btn-outline-primary").addClass("btn-primary").prop("onclick", null).off('click').click(function(){ receive(result.index); });
+      function searchAdrress(address){
+        if(Account.isValidAddress(address)){
+          for(var i = 0; i < len; i++){
+            callFunction = "query";
+            callArgs = "[" + i + ", \"" + address +"\"]"; //in the form of ["args"]
+            contract = {
+              "function": callFunction,
+              "args": callArgs
+            };
+
+            neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+              var result = resp.result;
+              if(result === 'null'){
+                console.log("null");
+              } else{
+                try{
+                  result = JSON.parse(result);
+                }catch (err){
+                  //result is the error message
+                  console.log("error:" + err.message)
                 }
-              }
+                var airdrop;
+                if(!!result.balance) {
+                  airdrop = $("#airdrop" + result.index);
+                  airdrop.html("Got " + result.balance + " Token").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
+                } else {
+                  airdrop = $("#airdrop" + result.index);
+                  if(airdrop.val() == 0){
+                    airdrop.html("Airdrop Over").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
+                  } else {
+                    airdrop.html("Get Airdrop").removeClass("btn-outline-primary").addClass("btn-primary").prop("onclick", null).off('click').click(function(){ receive(result.index); });
+                  }
+                }
 
-            }
-          }).catch(function (err) {
-            //cbSearch(err)
-            console.log("error:" + err.message)
-          });
+              }
+            }).catch(function (err) {
+              //cbSearch(err)
+              console.log("error:" + err.message)
+            });
+          }
+        } else {
+          if(address != ""){
+            $(document).ready(function(){
+              $("#invalidAddress").modal('show');
+            });
+          }
         }
+      }
+
+      function search(){
+        var address = $("#address").val();
+        if(address === ""){
+          window.addEventListener('message', function (e) {
+            if (e.data.data && !!e.data.data.account) {
+              address = e.data.data.account;
+              searchAdrress(address);
+            }
+          });
+
+          window.postMessage({
+            "target": "contentscript",
+            "data": {},
+            "method": "getAccount",
+          }, "*");
+        }
+        searchAdrress(address);
       }
 
       function addAirdrop(resp){
@@ -348,6 +376,7 @@
 
             var html = Mustache.to_html(skeleton, data);
             $("#airdrops").append(html);
+            search();
           } else {
             $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
           }
@@ -364,16 +393,24 @@
           var to = dappAddress;
           var value = "0";
           var callFunction = "receive";
-          var callArgs = "[" + index + ", \"" +$("#referrer" + index).val() + "\"]";
-          console.log(callArgs);
-          serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-            listener: cbPush        //设置listener, 处理交易返回信息
-          });
+          var referrer = $("#referrer" + index).val();
+          if(referrer == "" || Account.isValidAddress(referrer)){
+            var callArgs = "[" + index + ", \"" + referrer + "\"]";
+            console.log(callArgs);
+            serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
+              listener: cbPush        //设置listener, 处理交易返回信息
+            });
 
-          intervalQuery = setInterval(function () {
-            funcIntervalQuery();
-          }, 5000);
+            intervalQuery = setInterval(function () {
+              funcIntervalQuery();
+            }, 5000);
+          } else {
+            $(document).ready(function(){
+              $("#invalidAddress").modal('show');
+            });
+          }
         }
+
       }
 
       function active(index, _active){
@@ -424,7 +461,7 @@
         //if the extension is installed, var "webExtensionWallet" will be injected in to web page
         if (typeof (webExtensionWallet) === "undefined") {
           $(document).ready(function(){
-            $("#myModal").modal('show');
+            $("#noWallet").modal('show');
           });
           return false;
         }
@@ -443,16 +480,41 @@
           console.log(url_refer);
         }
         var address = $("#referrer_address").val();
-        if(Account.isValidAddress(address)){
-          var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
-          var data = { url_refer: url_refer, address: address};
-          var html = Mustache.to_html(skeleton, data);
-          $("#referrer_link").html('').append(html);
+
+        if (address === ""){
+          window.addEventListener('message', function (e) {
+            if (e.data.data && !!e.data.data.account) {
+              address = e.data.data.account;
+              if(Account.isValidAddress(address)){
+                var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
+                var data = { url_refer: url_refer, address: address};
+                var html = Mustache.to_html(skeleton, data);
+                $("#referrer_link").html('').append(html);
+              }
+            }
+          });
+
+          window.postMessage({
+            "target": "contentscript",
+            "data": {},
+            "method": "getAccount",
+          }, "*");
+        } else {
+          if(Account.isValidAddress(address)){
+            var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
+            var data = { url_refer: url_refer, address: address};
+            var html = Mustache.to_html(skeleton, data);
+            $("#referrer_link").html('').append(html);
+          } else {
+            $(document).ready(function(){
+              $("#invalidAddress").modal('show');
+            });
+          }
         }
       }
     </script>
 
-    <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="noWallet" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -468,6 +530,24 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+
+  <div id="invalidAddress" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Invalid Nebulas Address</p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
   </body>
 </html>
