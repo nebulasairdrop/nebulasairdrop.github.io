@@ -49,27 +49,16 @@
         </nav>
       </div>
 
-      <section class="airdrop-section">
+      <section class="promotion-airdrop-section">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
           <h1 class="display-4">星云空投推广计划</h1>
-          <p class="lead">为了宣传和推广星云空投应用，赢得星云激励计划的最高奖金，我们制定了星云空投推广计划。与星云激励计划的奖励周期一致，我们将在本网站上每周设置一个空投，空投的代币用于计算分红，分红资金来源于星云空投该周在星云激励计划中获得的奖金。我们每个奖励周期拿出最多20%的奖金分红给期间参与星云空投推广计划的用户。</p>
+          <p class="lead">与星云激励计划的奖励周期一致，我们将在本网站上每周设置一个空投，空投的代币用于计算分红，分红资金来源于星云空投该周在星云激励计划中获得的奖金。我们每个奖励周期拿出最多20%的奖金分红给期间参与星云空投推广计划的用户。</p>
         </div>
 
         <div class="container" >
           <div class="card-deck mb-2 text-center" id="promotions">
           </div>
         </div>
-
-        <div class="container" >
-          <div class="card-deck mb-2 text-center" id="airdrops">
-          </div>
-        </div>
-
-        <div class="container" >
-          <div class="card-deck mb-2 text-center" id="testAirdrops">
-          </div>
-        </div>
-
       </section>
 
       <section class="referrer-section" id="referrer">
@@ -90,6 +79,23 @@
         <div id="referrer_link">
         </div>
       </section>
+
+
+  <section class="airdrop-section">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h2 class="display-5">其他空投项目</h2>
+      <p class="lead">在nasdrop.info上列出的项目是免费的。因为我们在星云主网上部署了智能合约，并将该网站作为Dapp运行，所以您的空投项目仅仅需要几秒钟就能发布。请注意不要产生垃圾空投项目，否则你的星云地址将被列入黑名单。</p>
+    </div>
+    <div class="container" >
+      <div class="card-deck mb-2 text-center" id="airdrops">
+      </div>
+    </div>
+
+    <div class="container" >
+      <div class="card-deck mb-2 text-center" id="testAirdrops">
+      </div>
+    </div>
+  </section>
 
       <section class="info-section" id="info">
         <div class="container">
@@ -392,7 +398,7 @@
               skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;<small>({{totalSupply}}&nbsp;{{symbol}} 已被{{holderNum}}人领取)</small><br><a onclick="active({{airdropIndex}}, true)"><img src="img/start.png" height="32" width="30"></a></h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / 钱包</small></h1><small class="card-title">{{desc}}</small><br><small>填写<b>推荐人</b>的钱包地址，你和你的推荐人都可以获额外 <a>{{referrerBonus}}</a>  {{symbol}} </small><input type="text" class="form-control" id="referrer{{airdropIndex}}" placeholder="{{referrer}}" value=""><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-outline-primary" id="airdrop{{airdropIndex}}" value="{{active}}">空投结束</button></div></div>';
               data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 0, referrer: referrer};
             }
-
+            var html = Mustache.to_html(skeleton, data);
             if(promotion.includes(parseInt(result.index))){
               $("#promotions").append(html);
             } else if (airdrop.includes(parseInt(result.index))) {

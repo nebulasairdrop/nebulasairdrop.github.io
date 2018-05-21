@@ -27,6 +27,7 @@
     <script src="../js/nebPay.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/nebulas.js"></script>
+    <script src="../js/airdropConfig.js"></script>
     <script src="../js/nebConfig.js"></script>
     <script src="../js/mustache.min.js"></script>
 
@@ -48,15 +49,16 @@
         </nav>
       </div>
 
-      <section class="airdrop-section">
+      <section class="promotion-airdrop-section">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-          <h1 class="display-4">What is a crypto airdrop?</h1>
-          <p class="lead">A​ ​crypto airdrop​ ​is​ ​when​ ​a​ ​blockchain project distribute​s free​ ​tokens or​ ​coins to​ ​the​ crypto ​community. To​ ​be​ ​a​ ​recipient​ ​of​ ​an​ crypto ​airdrop often​ ​the​ ​only​ ​requirement​ ​is​ ​that​ ​you​ ​have​ ​coins from the relevant blockchain stored​ ​in​ ​your​ ​wallet. </p>
+          <h1 class="display-5">Nebulas Airdrop Promotion Plan</h1>
+          <p class="lead"> In line with the incentive cycle of the Nebulas Incentive Program, we will set an airdrop on the site in the following week. The funds come from the bonuses that the Nebulas dropped during the week in the Nebulas Incentive Program.
+          </p>
         </div>
 
 
         <div class="container" >
-          <div class="card-deck mb-2 text-center" id="airdrops">
+          <div class="card-deck mb-2 text-center" id="promotions">
           </div>
         </div>
       </section>
@@ -66,6 +68,7 @@
           <h2 class="display-5">Why You Need a Invitation Link?</h2>
           <p class="lead">You can get extra tokens each time your friends get airdrops through your invitation link. And your friends will also get extra tokens from your invitation link.</p>
         </div>
+
         <div class="container">
           <div class="card-deck mb-3 text-center">
             <div class="card mb-4 box-shadow">
@@ -77,6 +80,22 @@
           </div>
         </div>
         <div id="referrer_link">
+        </div>
+      </section>
+
+      <section class="airdrop-section">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+          <h2 class="display-5">Other Airdrop Projects</h2>
+          <p class="lead">Please note that listing on nasdrop.info is free. Because we have a Smart Contract on Nebulas Mainnet and run the website as a Dapp, it just take several seconds for your Airdrop to be published. Please be careful not to generate junk airdrops, otherwise your nebulas address will be blacklisted.</p>
+        </div>
+        <div class="container" >
+          <div class="card-deck mb-2 text-center" id="airdrops">
+          </div>
+        </div>
+
+        <div class="container" >
+          <div class="card-deck mb-2 text-center" id="testAirdrops">
+          </div>
         </div>
       </section>
 
@@ -383,7 +402,13 @@
             }
 
             var html = Mustache.to_html(skeleton, data);
-            $("#airdrops").append(html);
+            if(promotion.includes(parseInt(result.index))){
+              $("#promotions").append(html);
+            } else if (airdrop.includes(parseInt(result.index))) {
+              $("#airdrops").append(html);
+            } else {
+              $("#testAirdrops").append(html);
+            }
             search();
           } else {
             $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
