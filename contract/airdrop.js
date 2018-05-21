@@ -106,7 +106,7 @@ Airdrops.prototype = {
         if (name === "" || symbol === "" || desc === ""){
             throw new Error("empty name / symbol / description");
         }
-        if (name.length > 64 || symbol.length > 64 || desc.length > 64){
+        if (name.length > 32 || symbol.length > 5 || desc.length > 256){
             throw new Error("name / symbol / description exceed limit length")
         }
 
@@ -214,7 +214,7 @@ Airdrops.prototype = {
         var hold = this.hold.get(airdropIndex);
 
         if (hold instanceof Hold) {
-           return hold.toString();
+           return hold;
         }
         return "";
     }
