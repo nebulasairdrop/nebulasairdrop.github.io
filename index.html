@@ -27,6 +27,7 @@
     <script src="js/nebPay.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/nebulas.js"></script>
+    <script src="js/airdropConfig.js"></script>
     <script src="js/nebConfig.js"></script>
     <script src="js/mustache.min.js"></script>
 
@@ -50,15 +51,25 @@
 
       <section class="airdrop-section">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-          <h1 class="display-4">什么是空投?</h1>
-          <p class="lead">空投是区块链项目向社区分发免费代币或基础币。 要接收空投，通常唯一的要求是您拥有相应区块链的基础币。</p>
+          <h1 class="display-4">星云空投推广计划</h1>
+          <p class="lead">为了宣传和推广星云空投应用，赢得星云激励计划的最高奖金，我们制定了星云空投推广计划。与星云激励计划的奖励周期一致，我们将在本网站上每周设置一个空投，空投的代币用于计算分红，分红资金来源于星云空投该周在星云激励计划中获得的奖金。我们每个奖励周期拿出最多20%的奖金分红给期间参与星云空投推广计划的用户。</p>
         </div>
 
+        <div class="container" >
+          <div class="card-deck mb-2 text-center" id="promotions">
+          </div>
+        </div>
 
         <div class="container" >
           <div class="card-deck mb-2 text-center" id="airdrops">
           </div>
         </div>
+
+        <div class="container" >
+          <div class="card-deck mb-2 text-center" id="testAirdrops">
+          </div>
+        </div>
+
       </section>
 
       <section class="referrer-section" id="referrer">
@@ -382,8 +393,13 @@
               data = { name: result.name, symbol: result.symbol, totalSupply: result.totalSupply, holderNum: result.holderNum, holderBonus: result.holderBonus, referrerBonus: result.referrerBonus, desc: result.desc, airdropIndex: result.index, active: 0, referrer: referrer};
             }
 
-            var html = Mustache.to_html(skeleton, data);
-            $("#airdrops").append(html);
+            if(promotion.includes(parseInt(result.index))){
+              $("#promotions").append(html);
+            } else if (airdrop.includes(parseInt(result.index))) {
+              $("#airdrops").append(html);
+            } else {
+              $("#testAirdrops").append(html);
+            }
             search();
           } else {
             $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
