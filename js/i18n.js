@@ -58,9 +58,9 @@ var i18n = function () {
             home: "Home",
             "keystore-file": "Keystore File",
             name: "English",
-            "new/comment": "This password encrypts your private key.\n" +
+            "new/comment": "This password encrypts your private key QR code image.\n" +
                 "This does not act as a seed to generate your keys.\n" +
-                "You will need this password + your private key to unlock your wallet.",
+                "You will need this password + your private key QR code image to unlock your wallet.",
             "new/enter-password": "Enter a password:（Not less than 9 characters）",
             "new/gen": "Download Keystore File",
             "new/new": "Create New Wallet",
@@ -155,7 +155,7 @@ var i18n = function () {
             home: "主页",
             "keystore-file": "密码库文件",
             name: "简体中文",
-            "new/comment": "该密码用于加密您的私钥。\n他不做为产生私钥的种子。\n您需要该密码 + 您的私钥以解锁您的钱包。",
+            "new/comment": "该密码用于加密您的私钥二维码图片。\n他不做为产生私钥的种子。\n您需要该密码 + 您的私钥二维码图片以解锁您的钱包。",
             "new/enter-password": "输入密码:（不少于9位数）",
             "new/gen": "下载密码库文件",
             "new/new": "新建钱包",

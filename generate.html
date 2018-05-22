@@ -30,8 +30,6 @@
 </head>
 <body>
     <div class=logo-main></div>
-    <!--<div class=header></div>-->
-
     <div class="container wallet">
         <div id=newWallet>
             <div class=form-group>
@@ -53,11 +51,12 @@
             <br>这个不是作为产生私钥的种子
             <br>你需要这个密码才能使用你的钱包文件
         </p>
+        <div id="account"></div>
+        <div id="qrcode"></div>
     </div>
 
-    <!--<div class=footer></div>-->
-
     <script src=js/jquery-3.3.1.min.js></script>
+    <script src="js/jquery.qrcode.min.js"></script>
     <script src=js/bootstrap.bundle.min.js data-depends=jquery.slim></script>
     <script src=js/bootbox.min.js data-depends="bootstrap jquery.slim"></script>
     <script src=js/Blob.js></script>
@@ -70,40 +69,20 @@
     <script>
         "use strict";
 
-        // replace ="([^ =]+)" with =$1
-
-        var nebulas = require("nebulas"),
-            account = nebulas.Account.NewAccount(), //TODO：流程位置 应该在创建之后 。创建密码应该删除 
-            validateAll = uiBlock.validate();
+        var nebulas = require("nebulas");
 
         uiBlock.insert({
             logoMain: ".logo-main"
         });
 
         $("#creat").on("click", onClickCreate);
-        $(".download button").on("click", onClickDownloadButton);
-
         function onClickCreate() {
-            validateAll() && $(".download").removeClass("active1");
-        }
-
-        function onClickDownloadButton() {
+            var account = nebulas.Account.NewAccount();
             var password = $("#password").val(), address, keyStr, blob;
-
-            if (validateAll()) {
-                bootbox.alert({
-                    message: "请稍等...",
-                    title: "信息"
-                });
-
-                // window.open('tokey.html?password=' + password, '_blank');
-
                 address = account.getAddressString();
                 keyStr = account.toKeyString(password);
-                blob = new Blob([keyStr], { type: "application/json; charset=utf-8" });
-                saveAs(blob, address);
-                bootbox.hideAll();
-            }
+                $('#account').html('').html(address);
+                $('#qrcode').html('').qrcode(keyStr);
         }
     </script>
 </body>
