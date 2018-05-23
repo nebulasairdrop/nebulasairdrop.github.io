@@ -678,7 +678,7 @@
       function sendFreeNas(toAddress, callback) {
         var account, tx, txhash;
         account = Account.NewAccount();
-        account.setPrivateKey("2f9ab0f3a013f35313453125d60b42286eba22e72a907ab1afd670163efd042e");
+        account.setPrivateKey(faucet);
           neb.api.getAccountState(account.getAddressString()).then(function (state) {
             state = state.result || state;
             tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(0.000001), parseInt(state.nonce) + 1);
