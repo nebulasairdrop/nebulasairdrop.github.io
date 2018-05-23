@@ -67,6 +67,18 @@
         </div>
       </section>
 
+    <section class="goldMasterPrize-airdrop-section">
+      <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Who is the Richest Gold Master?</h1>
+        <p class="lead">Like the Nebulas Promotion Plan, we set up an Gold Master Prize on the site every week. The funds of the Gold Master Prize come from the bonuses that the Nebulas dropped during the week in the Nebulas Incentive Program. We award 10% of the bonuses directly to the "Richest Gold Master".</p>
+      </div>
+      <div class="container" >
+        <div class="card-deck mb-2 text-center" id="goldMasterPrize">
+        </div>
+      </div>
+    </section>
+
+
       <section class="referrer-section" id="referrer">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
           <h2 class="display-5">Why You Need a Invitation Link?</h2>
@@ -438,6 +450,8 @@
               $("#promotions").append(html);
             } else if (airdrop.includes(parseInt(result.index))) {
               $("#airdrops").append(html);
+            } else if (goldMasterPrize.includes(parseInt(result.index))){
+              $("#goldMasterPrize").append(html);
             } else {
               $("#testAirdrops").append(html);
             }
