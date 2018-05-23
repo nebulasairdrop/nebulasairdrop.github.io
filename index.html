@@ -375,19 +375,21 @@
       function search(){
         var address = $("#address").val();
         if(address === ""){
-          window.addEventListener('message', function (e) {
-            if (e.data.data && !!e.data.data.account) {
-              address = e.data.data.account;
-              accountWallet = address;
-              searchAdrress(address);
-            }
-          });
+           if(checkNASWallet()){
+             window.addEventListener('message', function (e) {
+               if (e.data.data && !!e.data.data.account) {
+                 address = e.data.data.account;
+                 accountWallet = address;
+                 searchAdrress(address);
+               }
+             });
 
-          window.postMessage({
-            "target": "contentscript",
-            "data": {},
-            "method": "getAccount",
-          }, "*");
+             window.postMessage({
+               "target": "contentscript",
+               "data": {},
+               "method": "getAccount",
+             }, "*");
+           }
         }
         searchAdrress(address);
       }
@@ -435,7 +437,9 @@
             } else {
               $("#testAirdrops").append(html);
             }
-            search();
+            if(typeof (webExtensionWallet) !== "undefined"){
+              search();
+            }
           } else {
             $("#airdrops").append('<h1>Oops! There are no airdrops! <a href="new.html">Create the first Airdrop</a></h1>');
           }
@@ -571,24 +575,26 @@
         var address = $("#referrer_address").val();
 
         if (address === ""){
-          window.addEventListener('message', function (e) {
-            if (e.data.data && !!e.data.data.account) {
-              address = e.data.data.account;
-              if(Account.isValidAddress(address)){
-                accountWallet = address;
-                var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
-                var data = { url_refer: url_refer, address: address};
-                var html = Mustache.to_html(skeleton, data);
-                $("#referrer_link").html('').append(html);
+          if(checkNASWallet()){
+            window.addEventListener('message', function (e) {
+              if (e.data.data && !!e.data.data.account) {
+                address = e.data.data.account;
+                if(Account.isValidAddress(address)){
+                  accountWallet = address;
+                  var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
+                  var data = { url_refer: url_refer, address: address};
+                  var html = Mustache.to_html(skeleton, data);
+                  $("#referrer_link").html('').append(html);
+                }
               }
-            }
-          });
+            });
 
-          window.postMessage({
-            "target": "contentscript",
-            "data": {},
-            "method": "getAccount",
-          }, "*");
+            window.postMessage({
+              "target": "contentscript",
+              "data": {},
+              "method": "getAccount",
+            }, "*");
+          }
         } else {
           if(Account.isValidAddress(address)){
             var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
@@ -767,7 +773,7 @@
             <h4 class="modal-title">警告</h4>
           </div>
           <div class="modal-body">
-            <p>未安装星云钱包插件。请使用谷歌(Chrome)浏览器并且安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a>。或者通过<a href="#one-click-airdrop-section">一键领取</a>的方式获得星云推广计划的空投</p>
+            <p>未安装星云钱包插件。请使用谷歌(Chrome)浏览器并且安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a>。或者通过<a href="#one-click-airdrop-section">一键领取</a>的方式获得星云推广计划的空投。</p>
           </div>
           <div class="modal-footer"  style="padding-top: 10px">
             <br>
