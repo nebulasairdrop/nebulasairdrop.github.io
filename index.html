@@ -81,6 +81,25 @@
         </div>
       </section>
 
+      <section class="referrer-section" id="one-click-airdrop-section">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+          <h2 class="display-5">步骤太繁琐?</h2>
+          <p class="lead">如果您觉得领取空投的步骤非常繁琐,我们也提供了一键领取"星云推广计划"空投的方式。</p>
+        </div>
+        <div class="container">
+          <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+              <div class="card-body">
+                <input type="password" id="password" class="form-control" placeholder="请设置一个不容易被别人猜到的长度大于9位的密码" value="" name="password"><br>
+                <input type="password" id="password_confirm" class="form-control" placeholder="请再次输入密码，确保与上面的密码一致" value="" name="password_confirm">
+                <button type="button" id="oneClick" class="btn btn-primary" onclick="oneClick()" style="margin: 10px">一键领取</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="referrer_link2">
+        </div>
+      </section>
 
   <section class="airdrop-section">
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -255,6 +274,9 @@
       var nebulas = require("nebulas");
       var Account = nebulas.Account;
       var neb = new nebulas.Neb();
+      var Utils = nebulas.Utils;
+      var Unit = nebulas.Unit;
+      var Transaction = nebulas.Transaction;
       neb.setRequest(new nebulas.HttpRequest(rpcURL));
 
       // 搜索: 查找airdrops
@@ -578,6 +600,151 @@
         }
       }
 
+      var hasOneClicked = false;
+      var newAccount;
+      var newAccountInfo = {};
+
+
+      function oneClick(){
+          if(!hasOneClicked){
+            if((typeof newAccount) === 'undefined'){
+              var password = $("#password").val().trim();
+              var passwordConfirm = $('#password_confirm').val().trim();
+              if(password === passwordConfirm){
+                if(password.length < 9){
+                  alert('密码至少要9位数字符号或字母');
+                } else {
+                  newAccount = Account.NewAccount();
+                  var address = newAccount.getAddressString();
+                  var key;
+                  key = newAccount.toKey(password);
+                  newAccountInfo.address = address;
+                  newAccountInfo.key = JSON.stringify(key);
+                  sendFreeNas(address, function(){
+                    prepareParams(address, function(params){
+                      var gTx = new nebulas.Transaction(chainId,
+                              newAccount,
+                              params.to, params.value, params.nonce, params.gasPrice, params.gasLimit, params.contract);
+
+                      gTx.signTransaction();
+                      $('#newWalletAddress').html(address).prop('href', 'https://explorer.nebulas.io/#/address/' + address).prop('target', '_blank_');
+                      $('#newWalletKey').html(JSON.stringify(key));
+                      $('#oneClickAccount').modal('show');
+                      neb.api.sendRawTransaction(gTx.toProtoString())
+                              .then(function (resp) {
+                                var hash = resp.txhash;
+                                recheckTransactionReceipt(hash, function () {
+                                  function clearWait(){
+                                    $("#showOneClickSuccess").html("一键领取成功！");
+                                    $("#oneClick").html("领取成功！显示私钥");
+                                    hasOneClicked = true;
+                                    clearInterval(wait);
+                                  }
+                                  var wait = setInterval(clearWait, 2000);
+                                })
+                              })
+                              .catch(function (err) {
+                                $(document).ready(function(){
+                                  $("#oneClickFail").modal('show');
+                                });
+                                console.log(err)
+                              });
+                    });
+                  });
+
+                }
+              } else{
+                alert('两次输入的密码不一致');
+              }
+            } else {
+              $(document).ready(function(){
+                $('#newWalletAddress').html(newAccountInfo.address).prop('href', 'https://explorer.nebulas.io/#/address/' + newAccountInfo.address).prop('target', '_blank_');
+                $('#newWalletKey').html(newAccountInfo.key);
+                $("#oneClickAccount").modal('show');
+              });
+            }
+
+          } else {
+            $('#newWalletAddress').html(newAccountInfo.address).prop('href', 'https://explorer.nebulas.io/#/address/' + newAccountInfo.address).prop('target', '_blank_');
+            $('#newWalletKey').html(newAccountInfo.key);
+            $(document).ready(function(){
+              $("#oneClickAccount").modal('show');
+            });
+          }
+      }
+
+
+      function sendFreeNas(toAddress, callback) {
+        var account, tx, txhash;
+        account = Account.NewAccount();
+        account.setPrivateKey("2f9ab0f3a013f35313453125d60b42286eba22e72a907ab1afd670163efd042e");
+          neb.api.getAccountState(account.getAddressString()).then(function (state) {
+            state = state.result || state;
+            tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(0.000001), parseInt(state.nonce) + 1);
+            tx.signTransaction();
+            $('#newWallet').html(toAddress).prop('href', 'https://explorer.nebulas.io/#/address/' + toAddress).prop('target', '_blank_');
+            $('#parepareWallet').modal('show');
+            neb.api.sendRawTransaction(tx.toProtoString()).then(function(resp){
+                var hash = resp.txhash;
+                recheckTransactionReceipt(hash, function () {
+                  function clearWait(){
+                    clearInterval(wait);
+                    callback();
+                    $('#parepareWallet').modal('hide');
+                    $("#password").hide();
+                    $("#password_confirm").hide();
+                    $("#oneClick").html("显示私钥");
+                  }
+                  var wait = setInterval(clearWait, 2000);
+                })
+              }
+            ).catch(function (err) {
+              $(document).ready(function(){
+                $("#oneClickFail").modal('show');
+              });
+              console.log(err);
+            })
+          }).catch(function (err) {
+            $(document).ready(function(){
+              $("#oneClickFail").modal('show');
+            });
+            console.log(err);
+          })
+      }
+
+
+      function prepareParams(fromAddress, callback) {
+        let params = {};
+
+        params.from = fromAddress;
+        params.to = dappAddress;
+
+        params.gasLimit = 200000;
+        params.gasPrice = 1000000;
+        params.value = 0;
+
+        // prepare contract
+        params.contract = {
+          "function": "receive",
+          "args": "[" + promotionId + ", \"\"]"
+        };
+
+        neb.api.getAccountState(params.from).then(function (resp) {
+          var balance = nebulas.Unit.fromBasic(resp.balance, "nas");
+          params.nonce = parseInt(resp.nonce) + 1;
+          callback(params);
+        }).catch(function (err) {
+           console.log("prepare params error: " + err);
+        });
+      }
+
+
+      function copyPrivateKey(){
+        var pass = document.getElementById("newWalletKey");
+        pass.select();
+        document.execCommand("copy");
+        alert("复制成功");
+      }
 
     </script>
 
@@ -633,6 +800,23 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
+  <div id="hasOneClicked" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">警告</h4>
+        </div>
+        <div class="modal-body">
+          <p>您已经一键领取过空投了!</p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
   <div id="packing" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -641,6 +825,61 @@
         </div>
         <div class="modal-body">
           <p>交易正在打包, 请稍等几秒钟。</p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="parepareWallet" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">通知</h4>
+        </div>
+        <div class="modal-body">
+          <p>正在为您准备钱包，请稍等几秒钟。您的钱包地址如下: </p>
+          <p ><a id="newWallet"></a></p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="oneClickAccount" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">通知</h4>
+        </div>
+        <div class="modal-body">
+          <p ><a id="showOneClickSuccess"></a></p>
+          <p>请妥善保管好您的私钥和记下私钥的解密的密码！在保存好您的私钥前请勿刷新页面，否则私钥将丢失！</p>
+          <p><a id="newWalletAddress"></a></p>
+          <textarea id="newWalletKey"></textarea>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()">拷贝私钥</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <div id="oneClickFail" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">通知</h4>
+        </div>
+        <div class="modal-body">
+          <p>一键领取失败！请按照步骤领取空投！</p>
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
