@@ -273,6 +273,8 @@
         "args": callArgs
       };
 
+      var accountWallet;
+
       neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
         if(resp.result > 0){
           len = resp.result;
@@ -351,6 +353,7 @@
           window.addEventListener('message', function (e) {
             if (e.data.data && !!e.data.data.account) {
               address = e.data.data.account;
+              accountWallet = address;
               searchAdrress(address);
             }
           });
@@ -426,25 +429,33 @@
           var callFunction = "receive";
           var referrer = $("#referrer" + index).val();
           if(referrer == "" || Account.isValidAddress(referrer)){
-            var callArgs = "[" + index + ", \"" + referrer + "\"]";
-            console.log(callArgs);
-            serialNumber = nebPay.call(to, value, callFunction, callArgs, {
-              listener: function (resp) {
-                if(resp !== 'Error: Transaction rejected by user'){
-                  $('#packing').modal('show');
-                }
-                var hash = resp.txhash;
-                recheckTransactionReceipt(hash, function () {
-                  $('#packing').modal('hide');
-                  $('#packing_success').modal('show');
-                  function clearWait(){
-                    clearInterval(wait);
-                    window.location.href = window.location.href;
+            console.log(accountWallet);
+            if(accountWallet === referrer){
+              $(document).ready(function(){
+                $("#invalidReferrer").modal('show');
+              });
+            } else {
+              var callArgs = "[" + index + ", \"" + referrer + "\"]";
+              console.log(callArgs);
+              serialNumber = nebPay.call(to, value, callFunction, callArgs, {
+                listener: function (resp) {
+                  if(resp !== 'Error: Transaction rejected by user'){
+                    $('#packing').modal('show');
                   }
-                  var wait = setInterval(clearWait, 2000);
-                })
-              }
-            });
+                  var hash = resp.txhash;
+                  recheckTransactionReceipt(hash, function () {
+                    $('#packing').modal('hide');
+                    $('#packing_success').modal('show');
+                    function clearWait(){
+                      clearInterval(wait);
+                      window.location.href = window.location.href;
+                    }
+                    var wait = setInterval(clearWait, 2000);
+                  })
+                }
+              });
+            }
+
           } else {
             $(document).ready(function(){
               $("#invalidAddress").modal('show');
@@ -539,6 +550,7 @@
             if (e.data.data && !!e.data.data.account) {
               address = e.data.data.account;
               if(Account.isValidAddress(address)){
+                accountWallet = address;
                 var skeleton = '<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"><a href="{{url_refer}}?referrer={{address}}"><p class="lead">{{url_refer}}?referrer={{address}}</p></a></div>';
                 var data = { url_refer: url_refer, address: address};
                 var html = Mustache.to_html(skeleton, data);
@@ -595,6 +607,23 @@
         </div>
         <div class="modal-body">
           <p>星云账号地址格式错误</p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="invalidReferrer" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">警告</h4>
+        </div>
+        <div class="modal-body">
+          <p>推荐人不能是自己</p>
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>

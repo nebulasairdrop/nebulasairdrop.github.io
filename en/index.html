@@ -275,6 +275,8 @@
         "args": callArgs
       };
 
+      var accountWallet;
+
       neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
         if(resp.result > 0){
           len = resp.result;
@@ -353,6 +355,7 @@
           window.addEventListener('message', function (e) {
             if (e.data.data && !!e.data.data.account) {
               address = e.data.data.account;
+              accountWallet = address;
               searchAdrress(address);
             }
           });
@@ -429,25 +432,32 @@
           var callFunction = "receive";
           var referrer = $("#referrer" + index).val();
           if(referrer == "" || Account.isValidAddress(referrer)){
-            var callArgs = "[" + index + ", \"" + referrer + "\"]";
-            console.log(callArgs);
-            serialNumber = nebPay.call(to, value, callFunction, callArgs, {
-              listener: function (resp) {
-                if(resp !== 'Error: Transaction rejected by user'){
-                  $('#packing').modal('show');
-                }
-                var hash = resp.txhash;
-                recheckTransactionReceipt(hash, function () {
-                  $('#packing').modal('hide');
-                  $('#packing_success').modal('show');
-                  function clearWait(){
-                    clearInterval(wait);
-                    window.location.href = window.location.href;
+            if(accountWallet === referrer){
+              $(document).ready(function(){
+                $("#invalidReferrer").modal('show');
+              });
+            } else {
+              var callArgs = "[" + index + ", \"" + referrer + "\"]";
+              console.log(callArgs);
+              serialNumber = nebPay.call(to, value, callFunction, callArgs, {
+                listener: function (resp) {
+                  if (resp !== 'Error: Transaction rejected by user') {
+                    $('#packing').modal('show');
                   }
-                  var wait = setInterval(clearWait, 2000);
-                })
-              }
-            });
+                  var hash = resp.txhash;
+                  recheckTransactionReceipt(hash, function () {
+                    $('#packing').modal('hide');
+                    $('#packing_success').modal('show');
+                    function clearWait() {
+                      clearInterval(wait);
+                      window.location.href = window.location.href;
+                    }
+
+                    var wait = setInterval(clearWait, 2000);
+                  })
+                }
+              });
+            }
           } else {
             $(document).ready(function(){
               $("#invalidAddress").modal('show');
@@ -598,6 +608,23 @@
         </div>
         <div class="modal-body">
           <p>Invalid Nebulas Address</p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="invalidReferrer" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Alert</h4>
+        </div>
+        <div class="modal-body">
+          <p>Referrer cannot be yourself</p>
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
