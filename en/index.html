@@ -40,6 +40,9 @@
         <input type="text" id="address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="address" style="margin-left: 10px">
         <button type="button" class="btn btn-primary" onclick="search()" style="margin: 10px">Search</button>
         <nav class="my-2 my-md-0 mr-md-3">
+          <a class="btn btn-outline-primary" href="#one-click-airdrop-section">One-Click</a>
+        </nav>
+        <nav class="my-2 my-md-0 mr-md-3">
         <a class="btn btn-outline-primary" href="new.html#">New Airdrop</a>
         </nav>
         <nav class="my-2 my-md-0 mr-md-3">
@@ -81,6 +84,26 @@
           </div>
         </div>
         <div id="referrer_link">
+        </div>
+      </section>
+
+      <section class="referrer-section" id="one-click-airdrop-section">
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+          <h2 class="display-5">Do not want to handle the tough things?</h2>
+          <p class="lead">If you think it is too hard for you to get the airdrops step by step, we also provide a simple way to get the airdrops of "the Nebulas Airdrop Promotion Plan" by just one click.</p>
+        </div>
+        <div class="container">
+          <div class="card-deck mb-3 text-center">
+            <div class="card mb-4 box-shadow">
+              <div class="card-body">
+                <input type="password" id="password" class="form-control" placeholder="Enter a password:（Not less than 9 characters）" value="" name="password"><br>
+                <input type="password" id="password_confirm" class="form-control" placeholder="Enter the password again" value="" name="password_confirm">
+                <button type="button" id="oneClick" class="btn btn-primary" onclick="oneClick()" style="margin: 10px">One-Click Get</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="referrer_link2">
         </div>
       </section>
 
@@ -257,6 +280,9 @@
       var nebulas = require("nebulas");
       var Account = nebulas.Account;
       var neb = new nebulas.Neb();
+      var Utils = nebulas.Utils;
+      var Unit = nebulas.Unit;
+      var Transaction = nebulas.Transaction;
       neb.setRequest(new nebulas.HttpRequest(rpcURL));
 
       // 搜索: 查找airdrops
@@ -580,6 +606,161 @@
       }
 
 
+      var hasOneClicked = false;
+      var newAccount;
+      var newAccountInfo = {};
+
+
+      function oneClick(){
+        if(!hasOneClicked){
+          if((typeof newAccount) === 'undefined'){
+            var password = $("#password").val().trim();
+            var passwordConfirm = $('#password_confirm').val().trim();
+            if(password === passwordConfirm){
+              if(password.length < 9){
+                alert('Password should not less than 9 characters!');
+              } else {
+                newAccount = Account.NewAccount();
+                var address = newAccount.getAddressString();
+                var key;
+                key = newAccount.toKey(password);
+                newAccountInfo.address = address;
+                newAccountInfo.key = JSON.stringify(key);
+                sendFreeNas(address, function(){
+                  prepareParams(address, function(params){
+                    var gTx = new nebulas.Transaction(chainId,
+                            newAccount,
+                            params.to, params.value, params.nonce, params.gasPrice, params.gasLimit, params.contract);
+
+                    gTx.signTransaction();
+                    $('#newWalletAddress').html(address).prop('href', 'https://explorer.nebulas.io/#/address/' + address).prop('target', '_blank_');
+                    $('#newWalletKey').html(JSON.stringify(key));
+                    $('#oneClickAccount').modal('show');
+                    neb.api.sendRawTransaction(gTx.toProtoString())
+                            .then(function (resp) {
+                              var hash = resp.txhash;
+                              recheckTransactionReceipt(hash, function () {
+                                function clearWait(){
+                                  $("#showOneClickSuccess").html("You got airdrops successfully！Right click and copy the <a target='_blank' href='http://nasdrop.info/en/index.html?referrer="+ address +"'>Referrer Link</a> to your friends to get more bonus！");
+                                  $("#oneClick").html("Got Airdrops！Show Private Key");
+                                  hasOneClicked = true;
+                                  clearInterval(wait);
+                                }
+                                var wait = setInterval(clearWait, 2000);
+                              })
+                            })
+                            .catch(function (err) {
+                              console.log(err)
+                            });
+                  });
+                });
+
+              }
+            } else{
+              alert('The two password entered is not the same!');
+            }
+          } else {
+            $(document).ready(function(){
+              $("#showOneClickSuccess").html("You got airdrops successfully！Right click and copy the <a target='_blank' href='http://nasdrop.info/en/index.html?referrer="+ newAccountInfo.address +"'>Referrer Link</a> to your friends to get more bonus！");
+              $('#newWalletAddress').html(newAccountInfo.address).prop('href', 'https://explorer.nebulas.io/#/address/' + newAccountInfo.address).prop('target', '_blank_');
+              $('#newWalletKey').html(newAccountInfo.key);
+              $("#oneClickAccount").modal('show');
+            });
+          }
+
+        } else {
+          $('#newWalletAddress').html(newAccountInfo.address).prop('href', 'https://explorer.nebulas.io/#/address/' + newAccountInfo.address).prop('target', '_blank_');
+          $('#newWalletKey').html(newAccountInfo.key);
+          $(document).ready(function(){
+            $("#oneClickAccount").modal('show');
+          });
+        }
+      }
+
+
+      function sendFreeNas(toAddress, callback) {
+        var account, tx, txhash;
+        account = Account.NewAccount();
+        account.setPrivateKey(faucet);
+        neb.api.getAccountState(account.getAddressString()).then(function (state) {
+          state = state.result || state;
+          tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(0.000001), parseInt(state.nonce) + 1);
+          tx.signTransaction();
+          $('#newWallet').html(toAddress).prop('href', 'https://explorer.nebulas.io/#/address/' + toAddress).prop('target', '_blank_');
+          $('#parepareWallet').modal('show');
+          neb.api.sendRawTransaction(tx.toProtoString()).then(function(resp){
+                    var hash = resp.txhash;
+                    recheckTransactionReceipt(hash, function () {
+                      function clearWait(){
+                        clearInterval(wait);
+                        callback();
+                        $('#parepareWallet').modal('hide');
+                        $("#password").hide();
+                        $("#password_confirm").hide();
+                        $("#oneClick").html("Show Private Key");
+                      }
+                      var wait = setInterval(clearWait, 2000);
+                    })
+                  }
+          ).catch(function (err) {
+            console.log(err);
+          })
+        }).catch(function (err) {
+          console.log(err);
+        })
+      }
+
+
+      function prepareParams(fromAddress, callback) {
+        let params = {};
+
+        params.from = fromAddress;
+        params.to = dappAddress;
+
+        params.gasLimit = 200000;
+        params.gasPrice = 1000000;
+        params.value = 0;
+
+        // prepare contract
+        params.contract = {
+          "function": "receive",
+          "args": "[" + promotionId + ", \"\"]"
+        };
+
+        neb.api.getAccountState(params.from).then(function (resp) {
+          var balance = nebulas.Unit.fromBasic(resp.balance, "nas");
+          params.nonce = parseInt(resp.nonce) + 1;
+          callback(params);
+        }).catch(function (err) {
+          console.log("prepare params error: " + err);
+        });
+      }
+
+
+      function copyPrivateKey(){
+        var key = $('#newWalletKey');
+        if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
+          var el = key.get(0);
+          var editable = el.contentEditable;
+          var readOnly = el.readOnly;
+          el.contentEditable = true;
+          el.readOnly = false;
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          el.setSelectionRange(0, 999999);
+          el.contentEditable = editable;
+          el.readOnly = readOnly;
+        } else {
+          key.select();
+        }
+        document.execCommand('copy');
+        key.blur();
+        alert('Private Key copied!');
+      }
+
     </script>
 
     <div id="noWallet" class="modal fade" tabindex="-1" role="dialog">
@@ -589,7 +770,7 @@
             <h4 class="modal-title">Alert</h4>
           </div>
           <div class="modal-body">
-            <p>Nebulas Wallet is not Installed. Please use Chrome and install it from <a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">https://github.com/ChengOrangeJu/WebExtensionWallet</a></p>
+            <p>Nebulas Wallet is not Installed. Please use Chrome and install it from <a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">Nebulas Wallet Plugin</a>. Or<a href="#one-click-airdrop-section">One-Click</a> to get airdrops of "the Nebulas Airdrop Promotion Plan" smoothly!</p>
           </div>
           <div class="modal-footer"  style="padding-top: 10px">
             <br>
@@ -642,6 +823,62 @@
         </div>
         <div class="modal-body">
           <p>The transaction is packing. Please wait several seconds.</p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <div id="parepareWallet" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Notice</h4>
+        </div>
+        <div class="modal-body">
+          <p>Preparing your accounts, please wait for several seconds. Here is your account's address: </p>
+          <p ><a id="newWallet"></a></p>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="oneClickAccount" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Notice</h4>
+        </div>
+        <div class="modal-body">
+          <p ><a id="showOneClickSuccess"></a></p>
+          <p>Please keep your private key in secure and remember the encryption phrase! Do not to refresh the page unless you saved your private key, otherwise you lose it!</p>
+          <p><a id="newWalletAddress"></a></p>
+          <textarea id="newWalletKey"></textarea>
+        </div>
+        <div class="modal-footer"  style="padding-top: 10px">
+          <br>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()">Copy Private Key</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <div id="oneClickFail" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Notice</h4>
+        </div>
+        <div class="modal-body">
+          <p>Failed One-Clock to get airdrops! Please follow the steps in Airdrop Plan！</p>
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
