@@ -635,7 +635,7 @@
                                 var hash = resp.txhash;
                                 recheckTransactionReceipt(hash, function () {
                                   function clearWait(){
-                                    $("#showOneClickSuccess").html("一键领取成功！");
+                                    $("#showOneClickSuccess").html("一键领取成功！快右键复制<a target='_blank' href='http://nasdrop.info?referrer="+ address +"'>推荐链接</a>发给好友来获得更多奖励吧！");
                                     $("#oneClick").html("领取成功！显示私钥");
                                     hasOneClicked = true;
                                     clearInterval(wait);
@@ -644,9 +644,6 @@
                                 })
                               })
                               .catch(function (err) {
-                                $(document).ready(function(){
-                                  $("#oneClickFail").modal('show');
-                                });
                                 console.log(err)
                               });
                     });
@@ -658,6 +655,7 @@
               }
             } else {
               $(document).ready(function(){
+                $("#showOneClickSuccess").html("一键领取成功！快右键复制<a target='_blank' href='http://nasdrop.info?referrer="+ newAccountInfo.address +"'>推荐链接</a>发给好友来获得更多奖励吧！");
                 $('#newWalletAddress').html(newAccountInfo.address).prop('href', 'https://explorer.nebulas.io/#/address/' + newAccountInfo.address).prop('target', '_blank_');
                 $('#newWalletKey').html(newAccountInfo.key);
                 $("#oneClickAccount").modal('show');
@@ -699,15 +697,9 @@
                 })
               }
             ).catch(function (err) {
-              $(document).ready(function(){
-                $("#oneClickFail").modal('show');
-              });
               console.log(err);
             })
           }).catch(function (err) {
-            $(document).ready(function(){
-              $("#oneClickFail").modal('show');
-            });
             console.log(err);
           })
       }
@@ -740,10 +732,27 @@
 
 
       function copyPrivateKey(){
-        var pass = document.getElementById("newWalletKey");
-        pass.select();
-        document.execCommand("copy");
-        alert("复制成功");
+        var key = $('#newWalletKey');
+        if (navigator.userAgent.match(/ipad|ipod|iphone/i)) {
+          var el = key.get(0);
+          var editable = el.contentEditable;
+          var readOnly = el.readOnly;
+          el.contentEditable = true;
+          el.readOnly = false;
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          el.setSelectionRange(0, 999999);
+          el.contentEditable = editable;
+          el.readOnly = readOnly;
+        } else {
+          key.select();
+        }
+        document.execCommand('copy');
+        key.blur();
+        alert('私钥拷贝成功');
       }
 
     </script>
