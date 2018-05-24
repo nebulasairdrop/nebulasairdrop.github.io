@@ -76,22 +76,17 @@
       <div class="container" >
         <div class="card-deck mb-2 text-center" id="goldMasterPrize">
         </div>
-        <div class="list-group" id="rankGoldMaster" hidden="hidden">
+        <div class="list-group" id="rankGoldMaster" hidden="hidden" style="padding-right: inherit">
           <ul>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
               <input type="hidden" value="0" id="top1Val">
-              <a href="" class="list-group-item list-group-item-action list-group-item-success" hidden="hidden" id="goldMasterTop1" value="0"></a><span class="badge badge-primary badge-pill" id="goldMasterTop1B" hidden="hidden"></span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="badge badge-primary badge-pill" id="goldMasterTop1B" hidden="hidden" style="padding-left: 10px"></span>
+              <a href="" class="list-group-item list-group-item-action list-group-item-success" hidden="hidden" id="goldMasterTop1" value="0"></a>
               <input type="hidden" value="0" id="top2Val">
-              <a href="" class="list-group-item list-group-item-action list-group-item-warning" hidden="hidden" id="goldMasterTop2" value="0"></a><span class="badge badge-primary badge-pill" id="goldMasterTop2B" hidden="hidden"></span>
-            </li>
-
-            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="badge badge-primary badge-pill" id="goldMasterTop2B" hidden="hidden"></span>
+              <a href="" class="list-group-item list-group-item-action list-group-item-warning" hidden="hidden" id="goldMasterTop2" value="0"></a>
               <input type="hidden" value="0" id="top3Val">
-              <a href="" class="list-group-item list-group-item-action list-group-item-danger" hidden="hidden" id="goldMasterTop3" value="0"></a><span class="badge badge-primary badge-pill"  id="goldMasterTop3B" hidden="hidden"></span>
-            </li>
+              <span class="badge badge-primary badge-pill"  id="goldMasterTop3B" hidden="hidden"></span>
+              <a href="" class="list-group-item list-group-item-action list-group-item-danger" hidden="hidden" id="goldMasterTop3" value="0"></a>
           </ul>
         </div>
       </div>
@@ -811,7 +806,7 @@
             refreshMasterRankingList(mastersList[index], balance);
             callback(index)
           }
-          var wait = setInterval(clearWait, 250);
+          var wait = setInterval(clearWait, 350);
         })
       }
 
