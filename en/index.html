@@ -30,6 +30,7 @@
     <script src="../js/airdropConfig.js"></script>
     <script src="../js/nebConfig.js"></script>
     <script src="../js/mustache.min.js"></script>
+    <script src="../js/big-number.js"></script>
 
   </head>
 
@@ -74,6 +75,24 @@
       </div>
       <div class="container" >
         <div class="card-deck mb-2 text-center" id="goldMasterPrize">
+        </div>
+        <div class="list-group" id="rankGoldMaster" hidden="hidden">
+          <ul>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <input type="hidden" value="0" id="top1Val">
+              <a href="" class="list-group-item list-group-item-action list-group-item-success" hidden="hidden" id="goldMasterTop1" value="0"></a><span class="badge badge-primary badge-pill" id="goldMasterTop1B" hidden="hidden"></span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <input type="hidden" value="0" id="top2Val">
+              <a href="" class="list-group-item list-group-item-action list-group-item-warning" hidden="hidden" id="goldMasterTop2" value="0"></a><span class="badge badge-primary badge-pill" id="goldMasterTop2B" hidden="hidden"></span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <input type="hidden" value="0" id="top3Val">
+              <a href="" class="list-group-item list-group-item-action list-group-item-danger" hidden="hidden" id="goldMasterTop3" value="0"></a><span class="badge badge-primary badge-pill"  id="goldMasterTop3B" hidden="hidden"></span>
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -338,7 +357,7 @@
       });
 
 
-      function searchAdrress(address){
+      function searchAddress(address){
         if(Account.isValidAddress(address)){
           for(var i = 0; i < len; i++){
             callFunction = "query";
@@ -395,7 +414,7 @@
               if (e.data.data && !!e.data.data.account) {
                 address = e.data.data.account;
                 accountWallet = address;
-                searchAdrress(address);
+                searchAddress(address);
               }
             });
 
@@ -406,7 +425,7 @@
             }, "*");
           }
         }
-        searchAdrress(address);
+        searchAddress(address);
       }
 
       function addAirdrop(resp){
@@ -780,6 +799,120 @@
         key.blur();
         alert('Private Key copied!');
       }
+
+
+      function getMasterBalance(mastersList, index, callback){
+        $.post(rpcURL + '/v1/user/accountstate', JSON.stringify({
+          "address": mastersList[index]
+        }), function (resp) {
+          function clearWait() {
+            clearInterval(wait);
+            var balance = new BigNumber(resp.result.balance);
+            refreshMasterRankingList(mastersList[index], balance);
+            callback(index)
+          }
+          var wait = setInterval(clearWait, 250);
+        })
+      }
+
+
+      function getTopGoldMasters(){
+        var _contract = {
+          "function": "dump",
+          "args": "[" + goldMasterPrize[0] + "]"
+        };
+        var account = Account.NewAccount();
+        account.setPrivateKey(faucet);
+        neb.api.call(account.getAddressString(), dappAddress, value, nonce, gas_price, gas_limit, _contract).then(function (resp) {
+          console.log(resp);
+          if(resp && resp.result !== ''){
+            var masters = JSON.parse(JSON.parse(resp.result));
+            var mastersList = [];
+            for(var master in masters) {
+              if(masters.hasOwnProperty(master)) {
+                mastersList.push(master)
+              }
+            }
+            var f = function(index){
+              if(mastersList.length > index + 1){
+                getMasterBalance(mastersList, index + 1, f);
+              }
+            };
+            var bnZero = new BigNumber(0);
+            getMasterBalance(mastersList, 0, f);
+
+          } else {
+            console.log('No gold master')
+          }
+        }).catch(function (err) {
+          //cbSearch(err)
+          console.log("error: " + err.message)
+        });
+      }
+
+      var lowerTop = new BigNumber(0);
+
+      var top1 = $("#goldMasterTop1");
+      var top1Val = $("#top1Val");
+      var top1B = $("#goldMasterTop1B");
+      var top2 = $("#goldMasterTop2");
+      var top2Val = $("#top2Val");
+      var top2B = $("#goldMasterTop2B");
+      var top3 = $("#goldMasterTop3");
+      var top3Val = $("#top3Val");
+      var top3B = $("#goldMasterTop3B");
+      var GoldMasterNum = 0;
+      var goldMasterRankShow = false;
+      var explorerURL = 'https://explorer.nebulas.io/#/address/';
+      function refreshMasterRankingList(address, balance){
+        if(balance.gt(lowerTop)){
+          if(balance.gt(new BigNumber(top1Val.val()))){
+
+
+            top3.html(top2.text()).prop('href', explorerURL + top2.text()).prop('target', '_blank_');
+            top3Val.prop('value', top2Val.val());
+            top3B.html(top2B.text());
+
+            top2.html(top1.text()).prop('href', explorerURL + top1.text()).prop('target', '_blank_');
+            top2Val.prop('value', top1Val.val());
+            top2B.html(top1B.text());
+
+            top1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+            top1Val.prop('value', balance);
+            top1B.html((balance.div(Math.pow(10, 18))) + ' NAS');
+
+          } else if(balance.gt(new BigNumber(top2Val.val()))){
+
+
+            top3.html(top2.text()).prop('href', explorerURL + top2.text()).prop('target', '_blank_');
+            top3Val.prop('value', top2Val.val());
+            top3B.html(top2B.text());
+
+            top2.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+            top2Val.prop('value', balance);
+            top2B.html((balance.div(Math.pow(10, 18))) + ' NAS');
+          } else if(balance.gt(new BigNumber(top3Val.val()))){
+
+
+            top3.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+            top3Val.prop('value', balance);
+            top3B.html((balance.div(Math.pow(10, 18))) + ' NAS');
+            lowerTop = balance;
+          }
+        }
+        GoldMasterNum ++;
+        if(GoldMasterNum > 3 && !goldMasterRankShow){
+          $("#rankGoldMaster").attr("hidden", false);
+          top1.attr("hidden", false);
+          top1B.attr("hidden", false);
+          top2.attr("hidden", false);
+          top2B.attr("hidden", false);
+          top3.attr("hidden", false);
+          top3B.attr("hidden", false);
+        }
+      }
+
+      getTopGoldMasters();
 
     </script>
 
