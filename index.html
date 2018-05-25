@@ -814,7 +814,7 @@
             clearInterval(wait);
             var balance = parseInt((new BigNumber(resp.result.balance)).div(Math.pow(10, 18)));
             refreshMasterRankingList(mastersList[index], balance);
-            callback(index)
+            callback(index + 1)
           }
           var wait = setInterval(clearWait, 250);
         })
@@ -847,8 +847,8 @@
             fromIndex = parseInt(fromIndex);
 
             var f = function(index){
-              if(mastersList.length > index + 1){
-                getMasterBalance(mastersList, index + 1, f);
+              if(mastersList.length > index){
+                getMasterBalance(mastersList, index, f);
               }
             };
 
@@ -922,7 +922,7 @@
             top1B.html(balance + ' NAS');
             topThree.top1.address = address;
             topThree.top1.balance = balance;
-          } else if(balance > top2Val){
+          } else if(balance > top2Val.val()){
             top3.html(top2.text()).prop('href', explorerURL + top2.text()).prop('target', '_blank_');
             top3Val.prop('value', top2Val.val());
             top3B.html(top2B.text());
@@ -934,7 +934,7 @@
             top2B.html(balance + ' NAS');
             topThree.top2.address = address;
             topThree.top2.balance = balance;
-          } else if(balance > top3Val ){
+          } else if(balance > top3Val.val() ){
             top3.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
             top3Val.prop('value', balance);
             top3B.html((balance) + ' NAS');
@@ -944,10 +944,10 @@
           }
         }
         GoldMasterNum ++;
-        fromIndex ++;
         localStorage.setItem('fromIndex' + goldMasterPrize[0], fromIndex + '');
         localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify(topThree));
-        if(GoldMasterNum > 4 && !goldMasterRankShow){
+        fromIndex ++;
+        if(GoldMasterNum > 4 && !goldMasterRankShow && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
           $("#rankGoldMaster").attr("hidden", false);
           top1.attr("hidden", false);
           top1B.attr("hidden", false);
