@@ -805,20 +805,23 @@
         alert('私钥拷贝成功');
       }
 
+
       function getMasterBalance(mastersList, index, callback){
         $.post(rpcURL + '/v1/user/accountstate', JSON.stringify({
           "address": mastersList[index]
         }), function (resp) {
           function clearWait() {
             clearInterval(wait);
-            var balance = new BigNumber(resp.result.balance);
+            var balance = parseInt((new BigNumber(resp.result.balance)).div(Math.pow(10, 18)));
             refreshMasterRankingList(mastersList[index], balance);
             callback(index)
           }
-          var wait = setInterval(clearWait, 350);
+          var wait = setInterval(clearWait, 250);
         })
       }
 
+      var topThree;
+      var fromIndex;
 
       function getTopGoldMasters(){
         var _contract = {
@@ -828,7 +831,6 @@
         var account = Account.NewAccount();
         account.setPrivateKey(faucet);
         neb.api.call(account.getAddressString(), dappAddress, value, nonce, gas_price, gas_limit, _contract).then(function (resp) {
-          console.log(resp);
           if(resp && resp.result !== ''){
             var masters = JSON.parse(JSON.parse(resp.result));
             var mastersList = [];
@@ -837,13 +839,44 @@
                 mastersList.push(master)
               }
             }
+
+            var topThreeJson = localStorage.getItem('topThreeJson' + goldMasterPrize[0]);
+            if (topThreeJson) topThree = JSON.parse(topThreeJson);
+            else topThree = {top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}};
+            fromIndex = localStorage.getItem('fromIndex' + goldMasterPrize[0]) || "0";
+            fromIndex = parseInt(fromIndex);
+
             var f = function(index){
               if(mastersList.length > index + 1){
                 getMasterBalance(mastersList, index + 1, f);
               }
             };
-            var bnZero = new BigNumber(0);
-            getMasterBalance(mastersList, 0, f);
+
+            if(fromIndex > 2 && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
+              top1.html(topThree.top1.address).prop('href', explorerURL + topThree.top1.address).prop('target', '_blank_');
+              top1Val.prop('value', topThree.top1.balance);
+              top1B.html((topThree.top1.balance) + ' NAS');
+
+              top2.html(topThree.top2.address).prop('href', explorerURL + topThree.top2.address).prop('target', '_blank_');
+              top2Val.prop('value', topThree.top2.balance);
+              top2B.html((topThree.top2.balance) + ' NAS');
+
+              top3.html(topThree.top3.address).prop('href', explorerURL + topThree.top3.address).prop('target', '_blank_');
+              top3Val.prop('value', topThree.top3.balance);
+              top3B.html((topThree.top3.balance) + ' NAS');
+
+              $("#rankGoldMaster").attr("hidden", false);
+              top1.attr("hidden", false);
+              top1B.attr("hidden", false);
+              top2.attr("hidden", false);
+              top2B.attr("hidden", false);
+              top3.attr("hidden", false);
+              top3B.attr("hidden", false);
+
+              lowerTop = topThree.top3.balance;
+            }
+
+            getMasterBalance(mastersList, parseInt(fromIndex), f);
 
           } else {
             console.log('No gold master')
@@ -854,7 +887,8 @@
         });
       }
 
-      var lowerTop = new BigNumber(0);
+      var lowerTop = 0;
+      var zero = 0;
 
       var top1 = $("#goldMasterTop1");
       var top1Val = $("#top1Val");
@@ -869,43 +903,51 @@
       var goldMasterRankShow = false;
       var explorerURL = 'https://explorer.nebulas.io/#/address/';
       function refreshMasterRankingList(address, balance){
-        if(balance.gt(lowerTop)){
-          if(balance.gt(new BigNumber(top1Val.val()))){
-
-
+        if(balance > lowerTop){
+          if(balance > top1Val.val()){
             top3.html(top2.text()).prop('href', explorerURL + top2.text()).prop('target', '_blank_');
             top3Val.prop('value', top2Val.val());
             top3B.html(top2B.text());
+            topThree.top3.address = topThree.top2.address;
+            topThree.top3.balance = topThree.top2.balance;
 
             top2.html(top1.text()).prop('href', explorerURL + top1.text()).prop('target', '_blank_');
             top2Val.prop('value', top1Val.val());
             top2B.html(top1B.text());
+            topThree.top2.address = topThree.top1.address;
+            topThree.top2.balance = topThree.top1.balance;
 
             top1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
             top1Val.prop('value', balance);
-            top1B.html((balance.div(Math.pow(10, 18))) + ' NAS');
-
-          } else if(balance.gt(new BigNumber(top2Val.val()))){
-
-
+            top1B.html(balance + ' NAS');
+            topThree.top1.address = address;
+            topThree.top1.balance = balance;
+          } else if(balance > top2Val){
             top3.html(top2.text()).prop('href', explorerURL + top2.text()).prop('target', '_blank_');
             top3Val.prop('value', top2Val.val());
             top3B.html(top2B.text());
+            topThree.top3.address = topThree.top2.address;
+            topThree.top3.balance = topThree.top2.balance;
 
             top2.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
             top2Val.prop('value', balance);
-            top2B.html((balance.div(Math.pow(10, 18))) + ' NAS');
-          } else if(balance.gt(new BigNumber(top3Val.val()))){
-
-
+            top2B.html(balance + ' NAS');
+            topThree.top2.address = address;
+            topThree.top2.balance = balance;
+          } else if(balance > top3Val ){
             top3.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
             top3Val.prop('value', balance);
             top3B.html((balance.div(Math.pow(10, 18))) + ' NAS');
+            topThree.top3.address = address;
+            topThree.top3.balance = balance;
             lowerTop = balance;
           }
         }
         GoldMasterNum ++;
-        if(GoldMasterNum > 3 && !goldMasterRankShow){
+        fromIndex ++;
+        localStorage.setItem('fromIndex' + goldMasterPrize[0], fromIndex + '');
+        localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify(topThree));
+        if((GoldMasterNum > 3 || (fromIndex > 2 && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== '')) && !goldMasterRankShow){
           $("#rankGoldMaster").attr("hidden", false);
           top1.attr("hidden", false);
           top1B.attr("hidden", false);
