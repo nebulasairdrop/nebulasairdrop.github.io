@@ -190,7 +190,7 @@
     function sendFreeNas(toAddress, callback) {
         var account, tx, txhash;
         account = Account.NewAccount();
-        account.setPrivateKey(faucets[getRandomInt(0, 99)]);
+        account.setPrivateKey(faucets[getRandomInt(0, 100)]);
         neb.api.getAccountState(account.getAddressString()).then(function (state) {
             state = state.result || state;
             tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(faucetValue), parseInt(state.nonce) + 1);

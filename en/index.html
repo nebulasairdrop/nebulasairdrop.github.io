@@ -748,11 +748,14 @@
         }
       }
 
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
 
       function sendFreeNas(toAddress, callback) {
         var account, tx, txhash;
         account = Account.NewAccount();
-        account.setPrivateKey(faucet);
+        account.setPrivateKey(faucets[getRandomInt(0, 100)]);
         neb.api.getAccountState(account.getAddressString()).then(function (state) {
           state = state.result || state;
           tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(0.000001), parseInt(state.nonce) + 1);
