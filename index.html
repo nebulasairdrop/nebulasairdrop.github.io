@@ -38,7 +38,7 @@
         <img src="img/naslogo.png" height="50" width="50">
         <h4 class="my-0 mr-md-auto font-weight-normal" style="padding-left: 0px; padding-right: 0px">&nbsp;Nebulas</h4>
         <h4 class="my-0 mr-md-auto font-weight-normal" style="padding-left: 5px; padding-right: 10px">&nbsp;Airdrop</h4>
-        <input type="text" id="address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="address" style="margin-left: 10px">
+        <input type="text" id="address" class="form-control" placeholder="输入星云链钱包地址(可留空)" value="" name="address" style="margin-left: 10px">
         <button type="button" class="btn btn-primary" onclick="search()" style="margin: 10px">搜索</button>
         <nav class="my-2 my-md-0 mr-md-3">
           <a class="btn btn-outline-primary" href="#one-click-airdrop-section">一键领取</a>
@@ -104,7 +104,7 @@
               <div class="card-body">
                 <input type="password" id="password" class="form-control" placeholder="长度不少于9位的数字符号或字母组成的密码" value="" name="password"><br>
                 <input type="password" id="password_confirm" class="form-control" placeholder="请再次输入密码，确保与上面的密码一致" value="" name="password_confirm"><br>
-                <input type="email" id="email" class="form-control" placeholder="设置通知邮箱(可选)" value="" name="email">
+                <input type="email" id="email" class="form-control" placeholder="设置通知邮箱(可不填)" value="" name="email">
                 <button type="button" id="oneClick" class="btn btn-primary" onclick="oneClick()" style="margin: 10px">一键领取</button>
               </div>
             </div>
@@ -123,7 +123,7 @@
           <div class="card-deck mb-3 text-center">
             <div class="card mb-4 box-shadow">
               <div class="card-body">
-                <input type="text" id="referrer_address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="referrer_address">
+                <input type="text" id="referrer_address" class="form-control" placeholder="输入星云链钱包地址(可留空)" value="" name="referrer_address">
                 <button type="button" class="btn btn-primary" onclick="generateLink()" style="margin: 10px">产生邀请链接</button>
               </div>
             </div>
@@ -452,7 +452,7 @@
           if(urlParams.has('referrer')){
             referrer = urlParams.get('referrer');
           } else{
-            referrer = "n1UUr6ipRiboc...";
+            referrer = "输入你的推荐人的星云链钱包地址(可留空)";
           }
 
           if(!!result.name) {
