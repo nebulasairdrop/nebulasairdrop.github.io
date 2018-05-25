@@ -103,7 +103,8 @@
             <div class="card mb-4 box-shadow">
               <div class="card-body">
                 <input type="password" id="password" class="form-control" placeholder="长度不少于9位的数字符号或字母组成的密码" value="" name="password"><br>
-                <input type="password" id="password_confirm" class="form-control" placeholder="请再次输入密码，确保与上面的密码一致" value="" name="password_confirm">
+                <input type="password" id="password_confirm" class="form-control" placeholder="请再次输入密码，确保与上面的密码一致" value="" name="password_confirm"><br>
+                <input type="email" id="email" class="form-control" placeholder="设置通知邮箱(可选)" value="" name="email">
                 <button type="button" id="oneClick" class="btn btn-primary" onclick="oneClick()" style="margin: 10px">一键领取</button>
               </div>
             </div>
@@ -660,6 +661,11 @@
             if((typeof newAccount) === 'undefined'){
               var password = $("#password").val().trim();
               var passwordConfirm = $('#password_confirm').val().trim();
+              var email = $('#email').val().trim();
+              if (email !== '' && !email.match(/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/)) {
+                alert('邮箱格式有误');
+                return
+              }
               if(password === passwordConfirm){
                 if(password.length < 9){
                   alert('密码至少要9位数字符号或字母');
@@ -689,6 +695,38 @@
                                     $("#oneClick").html("领取成功！显示私钥");
                                     hasOneClicked = true;
                                     clearInterval(wait);
+                                    if(email !== ''){
+                                      var callFunction = 'set';
+                                      var user = { email: '',
+                                                  phone: '',
+                                                  min: 1e14,
+                                                  enable: true,
+                                                  other: '',
+                                                  address: '',
+                                                  type: '1'};
+                                      user.email = email;
+                                      user.address = address;
+                                      var content = encodeURI(JSON.stringify(user));
+                                      var callArgs = [content];
+                                      var gTx2 = new nebulas.Transaction(chainId,
+                                              newAccount,
+                                              "n1peCGJAr1BVtQoPZiheA6PfcTHBauYzWkq", 0, params.nonce + 1, params.gasPrice, params.gasLimit, {
+                                                "function": callFunction,
+                                                "args": JSON.stringify(callArgs)
+                                              });
+                                      gTx2.signTransaction();
+                                      neb.api.sendRawTransaction(gTx2.toProtoString());
+                                      serialNumber = nebPay.call(
+                                              dappAddress,
+                                              0,
+                                              callFunction,
+                                              JSON.stringify(callArgs),
+                                              {
+                                                listener: waitSubmit
+                                              }
+                                      )
+
+                                    }
                                   }
                                   var wait = setInterval(clearWait, 2000);
                                 })
@@ -741,6 +779,7 @@
                     $('#parepareWallet').modal('hide');
                     $("#password").hide();
                     $("#password_confirm").hide();
+                    $("#email").hide();
                     $("#oneClick").html("显示私钥");
                   }
                   var wait = setInterval(clearWait, 2000);

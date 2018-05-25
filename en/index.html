@@ -102,7 +102,8 @@
             <div class="card mb-4 box-shadow">
               <div class="card-body">
                 <input type="password" id="password" class="form-control" placeholder="Enter a password:（Not less than 9 characters）" value="" name="password"><br>
-                <input type="password" id="password_confirm" class="form-control" placeholder="Enter the password again" value="" name="password_confirm">
+                <input type="password" id="password_confirm" class="form-control" placeholder="Enter the password again" value="" name="password_confirm"><br>
+                <input type="email" id="email" class="form-control" placeholder="Set notification email address (Optional)" value="" name="email">
                 <button type="button" id="oneClick" class="btn btn-primary" onclick="oneClick()" style="margin: 10px">One-Click Get</button>
               </div>
             </div>
@@ -649,6 +650,11 @@
           if((typeof newAccount) === 'undefined'){
             var password = $("#password").val().trim();
             var passwordConfirm = $('#password_confirm').val().trim();
+            var email = $('#email').val().trim();
+            if (email !== '' && !email.match(/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/)) {
+              alert("Email's format is wrong");
+              return
+            }
             if(password === passwordConfirm){
               if(password.length < 9){
                 alert('Password should not less than 9 characters!');
@@ -678,6 +684,38 @@
                                   $("#oneClick").html("Got Airdrops！Show Private Key");
                                   hasOneClicked = true;
                                   clearInterval(wait);
+                                  if(email !== ''){
+                                    var callFunction = 'set';
+                                    var user = { email: '',
+                                      phone: '',
+                                      min: 1e14,
+                                      enable: true,
+                                      other: '',
+                                      address: '',
+                                      type: '1'};
+                                    user.email = email;
+                                    user.address = address;
+                                    var content = encodeURI(JSON.stringify(user));
+                                    var callArgs = [content];
+                                    var gTx2 = new nebulas.Transaction(chainId,
+                                            newAccount,
+                                            "n1peCGJAr1BVtQoPZiheA6PfcTHBauYzWkq", 0, params.nonce + 1, params.gasPrice, params.gasLimit, {
+                                              "function": callFunction,
+                                              "args": JSON.stringify(callArgs)
+                                            });
+                                    gTx2.signTransaction();
+                                    neb.api.sendRawTransaction(gTx2.toProtoString());
+                                    serialNumber = nebPay.call(
+                                            dappAddress,
+                                            0,
+                                            callFunction,
+                                            JSON.stringify(callArgs),
+                                            {
+                                              listener: waitSubmit
+                                            }
+                                    )
+
+                                  }
                                 }
                                 var wait = setInterval(clearWait, 2000);
                               })
@@ -730,6 +768,7 @@
                         $('#parepareWallet').modal('hide');
                         $("#password").hide();
                         $("#password_confirm").hide();
+                        $("#email").hide();
                         $("#oneClick").html("Show Private Key");
                       }
                       var wait = setInterval(clearWait, 2000);
