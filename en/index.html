@@ -926,7 +926,7 @@
           } else if(balance > top3Val ){
             top3.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
             top3Val.prop('value', balance);
-            top3B.html((balance.div(Math.pow(10, 18))) + ' NAS');
+            top3B.html((balance) + ' NAS');
             topThree.top3.address = address;
             topThree.top3.balance = balance;
             lowerTop = balance;
@@ -936,7 +936,7 @@
         fromIndex ++;
         localStorage.setItem('fromIndex' + goldMasterPrize[0], fromIndex + '');
         localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify(topThree));
-        if((GoldMasterNum > 3 || (fromIndex > 2 && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== '')) && !goldMasterRankShow){
+        if(GoldMasterNum > 3 && !goldMasterRankShow){
           $("#rankGoldMaster").attr("hidden", false);
           top1.attr("hidden", false);
           top1B.attr("hidden", false);
