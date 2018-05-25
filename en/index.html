@@ -41,7 +41,7 @@
         <input type="text" id="address" class="form-control" placeholder="n1UUr6ipRiboc..." value="" name="address" style="margin-left: 10px">
         <button type="button" class="btn btn-primary" onclick="search()" style="margin: 10px">Search</button>
         <nav class="my-2 my-md-0 mr-md-3">
-          <a class="btn btn-outline-primary" href="http://candy.nasdrop.info/en/index.html" target="_blank">One-Click</a>
+          <a class="btn btn-outline-primary" href="oneclick.html" target="_blank">One-Click</a>
         </nav>
         <nav class="my-2 my-md-0 mr-md-3">
         <a class="btn btn-outline-primary" href="new.html#">New Airdrop</a>
@@ -868,42 +868,49 @@
               }
             }
 
-            var topThreeJson = localStorage.getItem('topThreeJson' + goldMasterPrize[0]);
-            if (topThreeJson) topThree = JSON.parse(topThreeJson);
-            else topThree = {top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}};
-            fromIndex = localStorage.getItem('fromIndex' + goldMasterPrize[0]) || "0";
-            fromIndex = parseInt(fromIndex);
-            console.log(fromIndex);
+            var time = new Date();
+            var timeLastQuery = localStorage.getItem('time') || "0";
+            timeLastQuery = parseInt(timeLastQuery);
+            if(time.getMilliseconds() - timeLastQuery > 15000){
+              localStorage.setItem('fromIndex' + goldMasterPrize[0], 0 + '');
+              localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify({top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}}));
+            } else {
+              var topThreeJson = localStorage.getItem('topThreeJson' + goldMasterPrize[0]);
+              if (topThreeJson) topThree = JSON.parse(topThreeJson);
+              else topThree = {top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}};
+              fromIndex = localStorage.getItem('fromIndex' + goldMasterPrize[0]) || "0";
+              fromIndex = parseInt(fromIndex);
+
+              if(fromIndex > 2 && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
+                top1.html(topThree.top1.address).prop('href', explorerURL + topThree.top1.address).prop('target', '_blank_');
+                top1Val.prop('value', topThree.top1.balance);
+                top1B.html((topThree.top1.balance) + ' NAS');
+
+                top2.html(topThree.top2.address).prop('href', explorerURL + topThree.top2.address).prop('target', '_blank_');
+                top2Val.prop('value', topThree.top2.balance);
+                top2B.html((topThree.top2.balance) + ' NAS');
+
+                top3.html(topThree.top3.address).prop('href', explorerURL + topThree.top3.address).prop('target', '_blank_');
+                top3Val.prop('value', topThree.top3.balance);
+                top3B.html((topThree.top3.balance) + ' NAS');
+
+                $("#rankGoldMaster").attr("hidden", false);
+                top1.attr("hidden", false);
+                top1B.attr("hidden", false);
+                top2.attr("hidden", false);
+                top2B.attr("hidden", false);
+                top3.attr("hidden", false);
+                top3B.attr("hidden", false);
+
+                lowerTop = topThree.top3.balance;
+              }
+            }
 
             var f = function(index){
               if(mastersList.length > index){
                 getMasterBalance(mastersList, index, f);
               }
             };
-
-            if(fromIndex > 2 && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
-              top1.html(topThree.top1.address).prop('href', explorerURL + topThree.top1.address).prop('target', '_blank_');
-              top1Val.prop('value', topThree.top1.balance);
-              top1B.html((topThree.top1.balance) + ' NAS');
-
-              top2.html(topThree.top2.address).prop('href', explorerURL + topThree.top2.address).prop('target', '_blank_');
-              top2Val.prop('value', topThree.top2.balance);
-              top2B.html((topThree.top2.balance) + ' NAS');
-
-              top3.html(topThree.top3.address).prop('href', explorerURL + topThree.top3.address).prop('target', '_blank_');
-              top3Val.prop('value', topThree.top3.balance);
-              top3B.html((topThree.top3.balance) + ' NAS');
-
-              $("#rankGoldMaster").attr("hidden", false);
-              top1.attr("hidden", false);
-              top1B.attr("hidden", false);
-              top2.attr("hidden", false);
-              top2B.attr("hidden", false);
-              top3.attr("hidden", false);
-              top3B.attr("hidden", false);
-
-              lowerTop = topThree.top3.balance;
-            }
 
             getMasterBalance(mastersList, parseInt(fromIndex), f);
 
@@ -974,8 +981,10 @@
         }
         GoldMasterNum ++;
         fromIndex ++;
+        var time = new Date();
         localStorage.setItem('fromIndex' + goldMasterPrize[0], fromIndex + '');
         localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify(topThree));
+        localStorage.setItem('time', time.getMilliseconds());
         if(GoldMasterNum > 4 && !goldMasterRankShow && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
           $("#rankGoldMaster").attr("hidden", false);
           top1.attr("hidden", false);
