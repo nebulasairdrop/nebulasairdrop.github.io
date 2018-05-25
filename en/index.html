@@ -758,7 +758,7 @@
         account.setPrivateKey(faucets[getRandomInt(0, 100)]);
         neb.api.getAccountState(account.getAddressString()).then(function (state) {
           state = state.result || state;
-          tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(0.000001), parseInt(state.nonce) + 1);
+          tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(faucetValue), parseInt(state.nonce) + 1);
           tx.signTransaction();
           $('#newWallet').html(toAddress).prop('href', 'https://explorer.nebulas.io/#/address/' + toAddress).prop('target', '_blank_');
           $('#parepareWallet').modal('show');
@@ -860,7 +860,7 @@
           "args": "[" + goldMasterPrize[0] + "]"
         };
         var account = Account.NewAccount();
-        account.setPrivateKey(faucet);
+        account.setPrivateKey(faucets[getRandomInt(0, 100)]);
         neb.api.call(account.getAddressString(), dappAddress, value, nonce, gas_price, gas_limit, _contract).then(function (resp) {
           if(resp && resp.result !== ''){
             var masters = JSON.parse(JSON.parse(resp.result));
