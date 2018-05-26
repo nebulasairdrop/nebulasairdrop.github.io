@@ -579,17 +579,23 @@
         }
       }
 
+      var needCheckNASWallet = true;
+
       function checkNASWallet(){
 
         //to check if the extension is installed
         //if the extension is installed, var "webExtensionWallet" will be injected in to web page
-        if (typeof (webExtensionWallet) === "undefined") {
+        if (needCheckNASWallet && (typeof (webExtensionWallet) === "undefined")) {
           $(document).ready(function(){
             $("#noWallet").modal('show');
           });
           return false;
         }
         return true;
+      }
+
+      function diableCheckNASWallet(){
+        needCheckNASWallet = false;
       }
 
 
@@ -1010,11 +1016,12 @@
             <h4 class="modal-title">Alert</h4>
           </div>
           <div class="modal-body">
-            <p>Nebulas Wallet is not Installed. Please use Chrome and install it from <a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">Nebulas Wallet Plugin</a>. Or use <a href="#one-click-airdrop-section">One-Click</a> to get airdrops of "the Nebulas Airdrop Promotion Plan" smoothly!</p>
+            <p>Nebulas Wallet is not Installed. Please use Chrome and install it from <a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">Nebulas Wallet Plugin</a> or use <a href="https://nano.nebulas.io" target="_blank">NAS Nano Mobile Wallet</a>. Or use <a href="#one-click-airdrop-section">One-Click</a> to get airdrops of "the Nebulas Airdrop Promotion Plan" smoothly!</p>
           </div>
           <div class="modal-footer"  style="padding-top: 10px">
             <br>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="diableCheckNASWallet()">I Have Installed</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

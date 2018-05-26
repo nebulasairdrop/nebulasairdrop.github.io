@@ -590,17 +590,24 @@
         }
       }
 
+
+      var needCheckNASWallet = true;
+
       function checkNASWallet(){
 
         //to check if the extension is installed
         //if the extension is installed, var "webExtensionWallet" will be injected in to web page
-        if (typeof (webExtensionWallet) === "undefined") {
+        if (needCheckNASWallet && (typeof (webExtensionWallet) === "undefined")) {
           $(document).ready(function(){
             $("#noWallet").modal('show');
           });
           return false;
         }
         return true;
+      }
+
+      function diableCheckNASWallet(){
+        needCheckNASWallet = false;
       }
 
 
@@ -1022,11 +1029,12 @@
             <h4 class="modal-title">警告</h4>
           </div>
           <div class="modal-body">
-            <p>未安装星云钱包插件。请使用谷歌(Chrome)浏览器并且安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a>。或者通过<a href="#one-click-airdrop-section">一键领取</a>的方式获得星云推广计划的空投。</p>
+            <p>未安装星云钱包插件。请使用谷歌(Chrome)浏览器并且安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a>或者使用<a href="https://nano.nebulas.io" target="_blank">星云手机钱包</a>。或者通过<a href="#one-click-airdrop-section">一键领取</a>的方式获得星云推广计划的空投。</p>
           </div>
           <div class="modal-footer"  style="padding-top: 10px">
             <br>
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="diableCheckNASWallet()">我已安装</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -1044,7 +1052,7 @@
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -1061,7 +1069,7 @@
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
