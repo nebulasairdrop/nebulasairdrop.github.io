@@ -57,7 +57,7 @@
       <section class="promotion-airdrop-section">
         <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
           <h1 class="display-5">Nebulas Airdrop Promotion Plan</h1>
-          <p class="lead"> In line with the incentive cycle of the Nebulas Incentive Program, we will set an airdrop on the site in the following week. The funds come from the bonuses that the Nebulas Airdrop receives during the week in the Nebulas Incentive Program.
+          <p class="lead"> In line with the incentive cycle of the Nebulas Incentive Program(NIP), we will set an airdrop on the site in the following week. The funds come from the bonuses that the Nebulas Airdrop receives during the week in the Nebulas Incentive Program.
           </p>
         </div>
 
@@ -77,6 +77,9 @@
           <div class="card-deck mb-2 text-center" id="goldMasterPrize">
           </div>
           <div class="list-group" id="rankGoldMaster" hidden="hidden" style="padding-right: inherit">
+            <div class="pricing-header mx-auto text-center">
+              <p class="lead">Gold Master Prize Second Round(In line with NIP) <a href="">History Winners</a></p>
+            </div>
             <ul>
                 <input type="hidden" value="0" id="top1Val">
                 <span class="badge badge-primary badge-pill" id="goldMasterTop1B" hidden="hidden" style="padding-left: 10px"></span>
@@ -333,6 +336,7 @@
         if(resp.result > 0){
           len = resp.result;
           for(var i = 0; i < resp.result; i++){
+            if(hide.includes(i)) continue;
             callFunction = "index";
             callArgs = "[" + i + "]"; //in the form of ["args"]
             contract = {
@@ -460,7 +464,9 @@
             }
 
             var html = Mustache.to_html(skeleton, data);
-            if(promotion.includes(parseInt(result.index))){
+            if(hide.includes(parseInt(result.index))){
+              // ignore
+            } else if(promotion.includes(parseInt(result.index))){
               $("#promotions").append(html);
             } else if (airdrop.includes(parseInt(result.index))) {
               $("#airdrops").append(html);
@@ -863,7 +869,7 @@
       function getTopGoldMasters(){
         var _contract = {
           "function": "dump",
-          "args": "[" + goldMasterPrize[0] + "]"
+          "args": "[" + goldMasterPrize[goldMasterPrizeIndex] + "]"
         };
         var account = Account.NewAccount();
         account.setPrivateKey(faucets[getRandomInt(0, 100)]);
@@ -881,13 +887,13 @@
             var timeLastQuery = localStorage.getItem('time') || "0";
             timeLastQuery = parseInt(timeLastQuery);
             if(time.getMilliseconds() - timeLastQuery > 15000){
-              localStorage.setItem('fromIndex' + goldMasterPrize[0], 0 + '');
-              localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify({top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}}));
+              localStorage.setItem('fromIndex' + goldMasterPrize[goldMasterPrizeIndex], 0 + '');
+              localStorage.setItem('topThreeJson' + goldMasterPrize[goldMasterPrizeIndex], JSON.stringify({top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}}));
             } else {
-              var topThreeJson = localStorage.getItem('topThreeJson' + goldMasterPrize[0]);
+              var topThreeJson = localStorage.getItem('topThreeJson' + goldMasterPrize[goldMasterPrizeIndex]);
               if (topThreeJson) topThree = JSON.parse(topThreeJson);
               else topThree = {top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}};
-              fromIndex = localStorage.getItem('fromIndex' + goldMasterPrize[0]) || "0";
+              fromIndex = localStorage.getItem('fromIndex' + goldMasterPrize[goldMasterPrizeIndex]) || "0";
               fromIndex = parseInt(fromIndex);
 
               if(fromIndex > 2 && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
@@ -991,8 +997,8 @@
         GoldMasterNum ++;
         fromIndex ++;
         var time = new Date();
-        localStorage.setItem('fromIndex' + goldMasterPrize[0], fromIndex + '');
-        localStorage.setItem('topThreeJson' + goldMasterPrize[0], JSON.stringify(topThree));
+        localStorage.setItem('fromIndex' + goldMasterPrize[goldMasterPrizeIndex], fromIndex + '');
+        localStorage.setItem('topThreeJson' + goldMasterPrize[goldMasterPrizeIndex], JSON.stringify(topThree));
         localStorage.setItem('time', time.getMilliseconds());
         if(GoldMasterNum > 4 && !goldMasterRankShow && topThree.top1.address !== '' && topThree.top2.address !== '' && topThree.top3.address !== ''){
           $("#rankGoldMaster").attr("hidden", false);
