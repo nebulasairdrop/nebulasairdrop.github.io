@@ -900,9 +900,12 @@
             var time = new Date();
             var timeLastQuery = localStorage.getItem('time') || "0";
             timeLastQuery = parseInt(timeLastQuery);
-            if(time.getMilliseconds() - timeLastQuery > 15000){
-              localStorage.setItem('fromIndex' + goldMasterPrize[goldMasterPrizeIndex], 0 + '');
-              localStorage.setItem('topThreeJson' + goldMasterPrize[goldMasterPrizeIndex], JSON.stringify({top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}}));
+            if(time.getMilliseconds() - timeLastQuery > 100000){
+              fromIndex = 0;
+              topThree = {top1: {address: '', balance: zero}, top2:{address: '', balance: zero}, top3:{address: '', balance: zero}};
+              localStorage.setItem('fromIndex' + goldMasterPrize[goldMasterPrizeIndex], fromIndex + '');
+              localStorage.setItem('topThreeJson' + goldMasterPrize[goldMasterPrizeIndex], JSON.stringify(topThree));
+              localStorage.setItem('time', time.getMilliseconds());
             } else {
               var topThreeJson = localStorage.getItem('topThreeJson' + goldMasterPrize[goldMasterPrizeIndex]);
               if (topThreeJson) topThree = JSON.parse(topThreeJson);
