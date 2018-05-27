@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../img/naslogo.png">
+
+    <title>Airdrops</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="../css/core.css" rel="stylesheet" type="text/css">
+    <link href="../css/components.css" rel="stylesheet" type="text/css">
+    <link href="../css/colors.css" rel="stylesheet" type="text/css">
+    <link href="../css/summernote.css" rel="stylesheet" type="text/css">
+    <link href="../css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="../airdrop.css" rel="stylesheet">
+
+    <!-- Import Javascript -->
+    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../js/nebPay.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/nebulas.js"></script>
+    <script src="../js/airdropConfig.js"></script>
+    <script src="../js/nebConfig.js"></script>
+    <script src="../js/mustache.min.js"></script>
+    <script src="../js/big-number.js"></script>
+
+</head>
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <img src="../img/naslogo.png" height="50" width="50">
+    <h4 class="my-0 mr-md-auto font-weight-normal" style="padding-left: 0px; padding-right: 0px">&nbsp;Nebulas &nbsp;Airdrop</h4>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index.html#">Home</a>
+    </nav>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="btn btn-outline-primary" href="../goldmaster.html">中文</a>
+    </nav>
+</div>
+
+<section class="goldMasterPrize-airdrop-section">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-5">History Winners in Gold Master Prize</h1>
+        <p class="lead">Like the Nebulas Promotion Plan, we set up an Gold Master Prize on the site every week. The funds of the Gold Master Prize come from the bonuses that the Nebulas Airdrop receives during the week in the Nebulas Incentive Program. We award 10% of the bonuses directly to the "Richest Gold Master".</p>
+    </div>
+    <div class="container" >
+        <div class="card-deck mb-2 text-center" id="goldMasterPrize">
+        </div>
+    </div>
+    <div class="container" >
+
+
+        <div class="list-group" id="rankGoldMaster_1" hidden="hidden" style="padding-right: inherit">
+            <div class="pricing-header mx-auto text-center">
+                <p class="lead">Gold Master First Round(May, 10 - May, 26)</p>
+            </div>
+            <ul>
+                <input type="hidden" value="0" id="top1Val_1">
+                <span class="badge badge-primary badge-pill" id="goldMasterTop1B_1" hidden="hidden" style="padding-left: 10px"></span>
+                <a href="" class="list-group-item list-group-item-action list-group-item-success" hidden="hidden" id="goldMasterTop1_1" value="0"></a>
+                <input type="hidden" value="0" id="top2Val_1">
+                <span class="badge badge-primary badge-pill" id="goldMasterTop2B_1" hidden="hidden"></span>
+                <a href="" class="list-group-item list-group-item-action list-group-item-warning" hidden="hidden" id="goldMasterTop2_1" value="0"></a>
+                <input type="hidden" value="0" id="top3Val_1">
+                <span class="badge badge-primary badge-pill"  id="goldMasterTop3B_1" hidden="hidden"></span>
+                <a href="" class="list-group-item list-group-item-action list-group-item-danger" hidden="hidden" id="goldMasterTop3_1" value="0"></a>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="info-section" id="info">
+    <div class="container">
+        <div class="row">
+            <h2 class="display-5">FAQ</h2>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>What is a crypto airdrop?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">A<b>​ ​crypto airdrop</b>​ ​is​ ​when​ ​a​ ​blockchain project distribute​s free​ ​tokens or​ ​coins to​ ​the​ crypto ​community.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">To​ ​be​ ​a​ ​recipient​ ​of​ ​an​ crypto ​airdrop often​ ​the​ ​only​ ​requirement​ ​is​ ​that​ ​you​ ​have​ ​coins from the relevant blockchain stored​ ​in​ ​your​ ​wallet. On Nebulas Airdrop everyone can get some free tokens if he has some NAS.</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>Where can I get NAS?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">You can buy NAS from crypto exchanges, such as <a href="https://huobi.pro" target="_blank">Huobi</a>, <a href="https://www.okex.com" target="_blank">OKEX</a> and <a href="https://gate.io/" target="_blank">gate.io</a> . Then you can withdraw NAS to your accounts. There are some NAS faucets where you can get minor NAS.<br><ol><li style="word-break: break-word; color: rgb(51, 51, 51);"><a href="https://nas.biyouduo.com" target="_blank">https://nas.biyouduo.com</a></li><li style="word-break: break-word; color: rgb(51, 51, 51);"><a href="https://nebulagram.com/" target="_blank">https://nebulagram.com</a></li><li style="word-break: break-word; color: rgb(51, 51, 51);"><a href="http://givemenas.com/home.html" target="_blank">http://givemenas.com</a> </li></ol><p style="word-break: break-word; color: rgb(51, 51, 51);">Check your account constantly to see if you received surprise airdrops!</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>Why do ICO's give away free tokens?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">If&nbsp;you're not paying for the&nbsp;product,&nbsp;you are the product. With doing an airdrop the project creates awareness about their ICO or token. It brings people to the project that otherwise would not have owned or heard about it. It could lead to token price appreciation, since people value a token they own higher than a token they don't own. This is called the endowment effect.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Airdrops create a community/network of people who own the tokens. If you would list the token distribution after an ICO in a pie graph, a large part of the pie is still owned by the Dev's or project. Another large part is owned by people who joined a pre-sale. And a reasonable part is owned by people who invested in the ICO. An airdrop adds an extra slice to the pie and that slice will have the most people in it.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">An airdrop also plants a seed. When you look at Coinmarketcap you will see a list of thousand coins. Just on page one you can see 100 coins listed. However if you have or had a coin that name is still in your brain. The seed is planted and whenever you check Coinmarketcap and scroll down, the name of the free e-Coin will jump out and people will check how it is doing. If they see an article that the free e-Token is doing well or bad, they are more likely to click it if they own it or previously have owned it. It's just like advertising!</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Looking​ ​forward,​ ​possible​ crypto ​airdrop​ ​developments​ ​could​ ​be​ ​projects​ ​starting​ ​to​ ​gift​ ​tokens​ ​to​ ​users​ ​who hold​ ​tokens​ ​in​ ​projects​ ​that​ ​overlap​ ​or​ ​have​ ​some​ ​synergy​ ​with​ ​their​ ​own.​ ​We​ ​could​ ​also​ ​see​ ​projects encouraging​ ​other​ ​projects​ ​to​ ​airdrop​ ​to​ ​their​ ​token​ ​owners​ ​and​ ​receiving​ ​some​ ​benefit​ ​in​ ​return. Like we already see happening at the Nebulas, Ethereum, Waves, NXT &amp; Komodo platforms.</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>Where do I sell my airdrops?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">So now you have free crypto, what do you do? Many coins that do airdrops are PRE-ICO or just finished their ICO. This often means it is not traded yet on the bigger exchanges. You can check out our exchange page to see where you can best <a href="https://coinmarketcap.com" target="_blank">sell your crypto airdrops</a>.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">We suggest you make an account at all exchanges we listed so you can easily sell and receive your crypto airdrops.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">We hope you receive as many airdrops as possible and that they increase in value over time. Many projects that are now top 40 coins have done airdrops in their early stages, like NAS, DECRED &amp; Ripple. You don't need to immediately sell your free crypto, there is nothing wrong with being a HODLer.</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>How do I keep my cryptocurrency safe?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">The safest way to store your airdrops are hardware &amp; cold storage wallets. These wallets store your coins offline, and therefore protect them from being hacked. There are a number of hardware wallets available. We would advise to use the&nbsp;<a href="https://www.ledgerwallet.com/r/5530" target="_blank" rel="noopener noreferrer">Ledger Wallet Nano S</a>&nbsp;or&nbsp;<a href="https://trezor.io/?a=airdropalert.com" target="_blank" rel="noopener noreferrer">Trezor</a>.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">Not all cryptocurrency can be stored in hardware wallets. We advise you to store your crypto in wallets where you control your private keys. You don't want your free crypto to be stolen!</p><p style="word-break: break-word; color: rgb(51, 51, 51);">To avoid scams we have a few general rules:</p><ol><li style="word-break: break-word; color: rgb(51, 51, 51);"><span style="color: rgb(0, 0, 0);">Never give your private keys!</span></li><li style="word-break: break-word; color: rgb(51, 51, 51);">Use 2 Factor Authentication on your wallets</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Be careful downloading wallets of smaller project, possibly use a Virtual machine.</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Never click on links redirecting to wallets</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Don’t use your main email address to apply for airdrops</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Don’t re-use your passwords when you register on a website</li><li style="word-break: break-word; color: rgb(51, 51, 51);">Don’t send your crypto to airdrop project directly<br></li></ol>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>Earn a bounty by alerting us of scams</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p><span style="color: rgb(51, 51, 51);">We strive to keep our website free of scam projects. However it is still possible we miss a scam project. We award people with $5 worth in NAS if you email us about a scam on our website inactive or active airdrops. Help us to keep the site clean and prevent other people to be a victim of a scam.&nbsp;</span><span style="color: rgb(51, 51, 51);">Contact us at:&nbsp;</span><a href="mailto:support@mail.nasdrop.info" style="background-color: rgb(255, 255, 255);">support@mail.nasdrop.info</a><br></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>List your airdrop!</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p>Do you want to list your airdrop on <a href="http://nasdrop.info" target="_blank">nasdrop.info</a>?</p><p><span style="color: rgb(51, 51, 51);">Please note that listing on nasdrop.info is free. Because we have a Smart Contract on Nebulas Mainnet and run the website as a Dapp, it just take several seconds for your Airdrop to be published. Please be careful not to generate junk airdrops, otherwise your nebulas address will be blacklisted.<br></span><br>Go ahead and <a href="new.html" target="_blank">create your airdrop</a>!</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function toggleVisibility(event) {
+            event.preventDefault();
+
+            var findAncestor = function (el, cls) {
+                while ((el = el.parentElement) && !el.classList.contains(cls));
+                return el;
+            }
+
+            var infoPanel = findAncestor(event.target, 'info-panel');
+
+            var panelContent = infoPanel.childNodes[1];
+
+            if (panelContent.style.overflow === "hidden") {
+                panelContent.style.overflow = '';
+                panelContent.style.height = '';
+            } else {
+                panelContent.style.overflow = 'hidden';
+                panelContent.style.height = '0px';
+            }
+        }
+
+        var elements = document.getElementsByClassName('panel-heading');
+        for (var index in elements) {
+            var element = document.getElementsByClassName('panel-heading')[index];
+
+            if (element.addEventListener) {
+                element.addEventListener('click', toggleVisibility);
+            }
+        }
+    </script>
+</section>
+
+<section>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="../img/naslogo1.png" alt="" width="24" height="24">
+                <small class="d-block mb-3 text-muted">&copy; 2018</small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Resources</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="https://nebulas.io">Official Website</a></li>
+                    <li><a class="text-muted" href="https://explorer.nebulas.io">Nebulas Explorer</a></li>
+                    <li><a class="text-muted" href="https://github.com/ChengOrangeJu/WebExtensionWallet">Nebulas Wallet</a></li>
+                    <li><a class="text-muted" href="https://github.com/nebulasairdrop/nebulasairdrop.github.io">GitHub Source</a></li>
+                    <li><a class="text-muted" href="" id="contract">Contract Address</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Contact</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted">Wechat: tt_666666666</a></li>
+                    <li><a class="text-muted" href="mailto:support@mail.nasdrop.info">Send Email</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</section>
+
+<script>window.jQuery || document.write('<script src="../js/jquery-slim.min.js"><\/script>')</script>
+<script src="../js/popper.min.js"></script>
+<script src="../js/holder.min.js"></script>
+<script>
+    Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+    });
+    $("#contract").prop('href','https://explorer.nebulas.io/#/address/'+ dappAddress +'#/').prop('target', '_blank_');
+</script>
+
+
+<script>
+
+    "use strict";
+    //here we use neb.js to call the "get" function to search from the Dictionary
+    var nebulas = require("nebulas");
+    var Account = nebulas.Account;
+    var neb = new nebulas.Neb();
+    var Utils = nebulas.Utils;
+    var Unit = nebulas.Unit;
+    var Transaction = nebulas.Transaction;
+    neb.setRequest(new nebulas.HttpRequest(rpcURL));
+
+    // 搜索: 查找airdrops
+
+    var from = Account.NewAccount().getAddressString();
+
+    var len = 0;
+    var value = "0";
+    var nonce = "0";
+    var gas_price = 1000000;
+    var gas_limit = 2000000;
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+    function getMasterBalance(mastersList, index, callback){
+        $.post(rpcURL + '/v1/user/accountstate', JSON.stringify({
+            "address": mastersList[index]
+        }), function (resp) {
+            function clearWait() {
+                clearInterval(wait);
+                var balance = parseInt((new BigNumber(resp.result.balance)).div(Math.pow(10, 18)));
+                refreshMasterRankingList(mastersList[index], balance);
+                callback(index + 1)
+            }
+            var wait = setInterval(clearWait, 250);
+        })
+    }
+
+    var topThree_1;
+    var fromIndex_1;
+
+    function getTopGoldMasters(){
+        var _contract = {
+            "function": "dump",
+            "args": "[" + goldMasterPrize[0] + "]"
+        };
+        var account = Account.NewAccount();
+        account.setPrivateKey(faucets[getRandomInt(0, 100)]);
+        neb.api.call(account.getAddressString(), dappAddress, value, nonce, gas_price, gas_limit, _contract).then(function (resp) {
+            if(resp && resp.result !== ''){
+                var masters = JSON.parse(JSON.parse(resp.result));
+                var mastersList = [];
+                for(var master in masters) {
+                    if(masters.hasOwnProperty(master)) {
+                        mastersList.push(master)
+                    }
+                }
+
+                var time = new Date();
+                var timeLastQuery = localStorage.getItem('time') || "0";
+                timeLastQuery = parseInt(timeLastQuery);
+                if(time.getMilliseconds() - timeLastQuery > 15000){
+                    localStorage.setItem('fromIndex_1' + goldMasterPrize[0], 0 + '');
+                    localStorage.setItem('topThreeJson_1' + goldMasterPrize[0], JSON.stringify({top1_1: {address: '', balance: zero}, top2_1:{address: '', balance: zero}, top3_1:{address: '', balance: zero}}));
+                } else {
+                    var topThreeJson_1 = localStorage.getItem('topThreeJson_1' + goldMasterPrize[0]);
+                    if (topThreeJson_1) topThree_1 = JSON.parse(topThreeJson_1);
+                    else topThree_1 = {top1_1: {address: '', balance: zero}, top2_1:{address: '', balance: zero}, top3_1:{address: '', balance: zero}};
+                    fromIndex_1 = localStorage.getItem('fromIndex_1' + goldMasterPrize[0]) || "0";
+                    fromIndex_1 = parseInt(fromIndex_1);
+
+                    if(fromIndex_1 > 2 && topThree_1.top1_1.address !== '' && topThree_1.top2_1.address !== '' && topThree_1.top3_1.address !== ''){
+                        top1_1.html(topThree_1.top1_1.address).prop('href', explorerURL + topThree_1.top1_1.address).prop('target', '_blank_');
+                        top1Val_1.prop('value', topThree_1.top1_1.balance);
+                        top1B_1.html((topThree_1.top1_1.balance) + ' NAS');
+
+                        top2_1.html(topThree_1.top2_1.address).prop('href', explorerURL + topThree_1.top2_1.address).prop('target', '_blank_');
+                        top2Val_1.prop('value', topThree_1.top2_1.balance);
+                        top2B_1.html((topThree_1.top2_1.balance) + ' NAS');
+
+                        top3_1.html(topThree_1.top3_1.address).prop('href', explorerURL + topThree_1.top3_1.address).prop('target', '_blank_');
+                        top3Val_1.prop('value', topThree_1.top3_1.balance);
+                        top3B_1.html((topThree_1.top3_1.balance) + ' NAS');
+
+                        $("#rankGoldMaster_1").attr("hidden", false);
+                        top1_1.attr("hidden", false);
+                        top1B_1.attr("hidden", false);
+                        top2_1.attr("hidden", false);
+                        top2B_1.attr("hidden", false);
+                        top3_1.attr("hidden", false);
+                        top3B_1.attr("hidden", false);
+
+                        lowerTop = topThree_1.top3_1.balance;
+                    }
+                }
+
+                var f = function(index){
+                    if(mastersList.length > index){
+                        getMasterBalance(mastersList, index, f);
+                    }
+                };
+
+                getMasterBalance(mastersList, parseInt(fromIndex_1), f);
+
+            } else {
+                console.log('No gold master')
+            }
+        }).catch(function (err) {
+            //cbSearch(err)
+            console.log("error: " + err.message)
+        });
+    }
+
+    var lowerTop = 0;
+    var zero = 0;
+
+    var top1_1 = $("#goldMasterTop1_1");
+    var top1Val_1 = $("#top1Val_1");
+    var top1B_1 = $("#goldMasterTop1B_1");
+    var top2_1 = $("#goldMasterTop2_1");
+    var top2Val_1 = $("#top2Val_1");
+    var top2B_1 = $("#goldMasterTop2B_1");
+    var top3_1 = $("#goldMasterTop3_1");
+    var top3Val_1 = $("#top3Val_1");
+    var top3B_1 = $("#goldMasterTop3B_1");
+    var GoldMasterNum = 0;
+    var goldMasterRankShow = false;
+    var explorerURL = 'https://explorer.nebulas.io/#/address/';
+    function refreshMasterRankingList(address, balance){
+        if(balance > lowerTop){
+            if(balance > top1Val_1.val()){
+                top3_1.html(top2_1.text()).prop('href', explorerURL + top2_1.text()).prop('target', '_blank_');
+                top3Val_1.prop('value', top2Val_1.val());
+                top3B_1.html(top2B_1.text());
+                topThree_1.top3_1.address = topThree_1.top2_1.address;
+                topThree_1.top3_1.balance = topThree_1.top2_1.balance;
+
+                top2_1.html(top1_1.text()).prop('href', explorerURL + top1_1.text()).prop('target', '_blank_');
+                top2Val_1.prop('value', top1Val_1.val());
+                top2B_1.html(top1B_1.text());
+                topThree_1.top2_1.address = topThree_1.top1_1.address;
+                topThree_1.top2_1.balance = topThree_1.top1_1.balance;
+
+                top1_1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+                top1Val_1.prop('value', balance);
+                top1B_1.html(balance + ' NAS');
+                topThree_1.top1_1.address = address;
+                topThree_1.top1_1.balance = balance;
+            } else if(balance > top2Val_1.val()){
+                top3_1.html(top2_1.text()).prop('href', explorerURL + top2_1.text()).prop('target', '_blank_');
+                top3Val_1.prop('value', top2Val_1.val());
+                top3B_1.html(top2B_1.text());
+                topThree_1.top3_1.address = topThree_1.top2_1.address;
+                topThree_1.top3_1.balance = topThree_1.top2_1.balance;
+
+                top2_1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+                top2Val_1.prop('value', balance);
+                top2B_1.html(balance + ' NAS');
+                topThree_1.top2_1.address = address;
+                topThree_1.top2_1.balance = balance;
+            } else if(balance > top3Val_1.val() ){
+                top3_1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+                top3Val_1.prop('value', balance);
+                top3B_1.html((balance) + ' NAS');
+                topThree_1.top3_1.address = address;
+                topThree_1.top3_1.balance = balance;
+                lowerTop = balance;
+            }
+        }
+        GoldMasterNum ++;
+        fromIndex_1 ++;
+        var time = new Date();
+        localStorage.setItem('fromIndex_1' + goldMasterPrize[0], fromIndex_1 + '');
+        localStorage.setItem('topThreeJson_1' + goldMasterPrize[0], JSON.stringify(topThree_1));
+        localStorage.setItem('time', time.getMilliseconds());
+        if(GoldMasterNum > 4 && !goldMasterRankShow && topThree_1.top1_1.address !== '' && topThree_1.top2_1.address !== '' && topThree_1.top3_1.address !== ''){
+            $("#rankGoldMaster_1").attr("hidden", false);
+            top1_1.attr("hidden", false);
+            top1B_1.attr("hidden", false);
+            top2_1.attr("hidden", false);
+            top2B_1.attr("hidden", false);
+            top3_1.attr("hidden", false);
+            top3B_1.attr("hidden", false);
+        }
+    }
+
+    getTopGoldMasters();
+
+</script>
+
+</body>
+</html>

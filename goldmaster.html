@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/naslogo.png">
+
+    <title>Airdrops</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="css/core.css" rel="stylesheet" type="text/css">
+    <link href="css/components.css" rel="stylesheet" type="text/css">
+    <link href="css/colors.css" rel="stylesheet" type="text/css">
+    <link href="css/summernote.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="airdrop.css" rel="stylesheet">
+
+    <!-- Import Javascript -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/nebPay.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/nebulas.js"></script>
+    <script src="js/airdropConfig.js"></script>
+    <script src="js/nebConfig.js"></script>
+    <script src="js/mustache.min.js"></script>
+    <script src="js/big-number.js"></script>
+
+</head>
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <img src="img/naslogo.png" height="50" width="50">
+    <h4 class="my-0 mr-md-auto font-weight-normal" style="padding-left: 0px; padding-right: 0px">&nbsp;Nebulas &nbsp;Airdrop</h4>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index.html#">主页</a>
+    </nav>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="btn btn-outline-primary" href="en/goldmaster.html">English</a>
+    </nav>
+</div>
+
+<section class="goldMasterPrize-airdrop-section">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">金主奖往期结果</h1>
+        <p class="lead">与星云推广计划一样，我们将在本网站每个周期设置一个金主奖，金主奖的资金来源于星云空投该周在星云激励计划中获得的奖金。我们每个奖励周期直接拿出10%的奖金奖励给"最豪金主"。</p>
+    </div>
+    <div class="container" >
+        <div class="card-deck mb-2 text-center" id="goldMasterPrize">
+        </div>
+    </div>
+    <div class="container" >
+
+
+        <div class="list-group" id="rankGoldMaster_1" hidden="hidden" style="padding-right: inherit">
+            <div class="pricing-header mx-auto text-center">
+                <p class="lead">金主奖第一期(5月10-5月26)</p>
+            </div>
+            <ul>
+                <input type="hidden" value="0" id="top1Val_1">
+                <span class="badge badge-primary badge-pill" id="goldMasterTop1B_1" hidden="hidden" style="padding-left: 10px"></span>
+                <a href="" class="list-group-item list-group-item-action list-group-item-success" hidden="hidden" id="goldMasterTop1_1" value="0"></a>
+                <input type="hidden" value="0" id="top2Val_1">
+                <span class="badge badge-primary badge-pill" id="goldMasterTop2B_1" hidden="hidden"></span>
+                <a href="" class="list-group-item list-group-item-action list-group-item-warning" hidden="hidden" id="goldMasterTop2_1" value="0"></a>
+                <input type="hidden" value="0" id="top3Val_1">
+                <span class="badge badge-primary badge-pill"  id="goldMasterTop3B_1" hidden="hidden"></span>
+                <a href="" class="list-group-item list-group-item-action list-group-item-danger" hidden="hidden" id="goldMasterTop3_1" value="0"></a>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section class="info-section" id="info">
+    <div class="container">
+        <div class="row">
+            <h2 class="display-5">常见问题</h2>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>什么是空投?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);"><b>​空投</b>​是区块链项目向社区分发免费代币或基础币。 </p><p style="word-break: break-word; color: rgb(51, 51, 51);">要接收空投，通常唯一的要求是您拥有相应区块链的基础币。</p><p style="word-break: break-word; color: rgb(51, 51, 51);">在星云空投平台中任何持有星云币的人将有机会获得一定数量的免费代币。</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>没有星云币(NAS)怎么办?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">NAS可以在各大数字货币交易所进行购买，再转账到你个人的NAS地址。您可以选择<a href="#one-click-airdrop-section">一键领取</a>或者这里也列出了一些免费提供少量NAS的网站。<br><ol><li style="word-break: break-word; color: rgb(51, 51, 51);"><a href="https://nas.biyouduo.com" target="_blank">https://nas.biyouduo.com</a></li><li style="word-break: break-word; color: rgb(51, 51, 51);"><a href="https://nebulagram.com/" target="_blank">https://nebulagram.com</a></li><li style="word-break: break-word; color: rgb(51, 51, 51);"><a href="http://givemenas.com/home.html" target="_blank">http://givemenas.com</a> </li></ol><p style="word-break: break-word; color: rgb(51, 51, 51);">定期查看你的钱包，看看你是否收到惊喜的空投。</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>什么时候能收到星云推广计划和金主奖的空投奖励?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">每个周期结束后，当星云空投获得星云官方的奖励后（第二周周五24时），我们将在2天内自动把该周期内的分红分给所有参与空投的用户。您可以定期查看你的钱包，看看你是否收到NAS的奖励，或者使用<a href="https://yuxizhe.github.io/cdn/nasmail/#/" target="_blank">钱包余额提醒服务</a>来第一时间通知您。</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>为什么项目方免费发放代币?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">如果你不需要为产品付费，那么你就是"产品"。通过空投，该项目可以提高对项目或代币的认识。它让人们参与到本来不会拥有或听说过的项目中。这可能会导致代币价格升值，因为人们认为他们拥有的代币比他们不拥有的代币高。这被称为禀赋效应。</p><p style="word-break: break-word; color: rgb(51, 51, 51);">空投创建拥有代币的人的社区/网络。 如果您将代币分布画成饼图，饼图的很大一部分仍然由项目开发方拥有。 另一大部分由参与预售的人所拥有。 而合理的部分则归投资ICO的人所有。 空投会为饼图增加额外的切片，并且该切片将拥有最多的人。</p><p style="word-break: break-word; color: rgb(51, 51, 51);">空投还会播种一颗种子。 当你看着Coinmarketcap时，你会看到一千个货币的列表。 就在第一页，你可以看到100个货币列出。 但是，如果你有或者有一个货币，这个名字仍然在你的脑中。 种子种植，每当您检查Coinmarketcap并向下滚动时，免费数字货币的名称就会跳出来，人们会查看它的价格变动。如果他们拥有它或以前拥有它，当他们看到有关免费数字货币表现良好或不好的文章，他们更有可能点击它。 这就像广告！</p><p style="word-break: break-word; color: rgb(51, 51, 51);">展望未来，可能的空投的发展方向是开始向持有相关数字货币的用户赠送代币，我们也可以看到一些项目激励其他项目将空投给他们的数字货币所有者并同时获得一些回报。 就像我们已经看到的星云币，以太坊，波浪币，未来币等。</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>怎么出售数字代币?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">所以现在你有免费的数字货币，你可以做什么？许多空投的货币是在PRE-ICO阶段或刚刚完成ICO。 这通常意味着它尚未在更大的交易所进行交易。 你可以查看 <a href="https://coinmarketcap.com" target="_blank">coinmarketcap.com</a></p><p style="word-break: break-word; color: rgb(51, 51, 51);"></p><p style="word-break: break-word; color: rgb(51, 51, 51);">我们希望你能获得尽可能多的空投，并随着时间的推移增值。 许多现在排名前40的数字货币项目在早期阶段都进行了空投。 您不需要立即出售您的免费数字货币，成为HODLer没有任何问题。</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>怎么保障数字货币资产的安全?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p style="word-break: break-word; color: rgb(51, 51, 51);">存储数字货币最安全的方法是硬件钱包和冷钱包。这些钱包离线存储您的数字货币，因此保护它们免受黑客攻击。 有一些硬件钱包可用。 我们会建议使用&nbsp;<a href="https://www.ledgerwallet.com/r/5530" target="_blank" rel="noopener noreferrer">Ledger Wallet Nano S</a>&nbsp;or&nbsp;<a href="https://trezor.io/?a=airdropalert.com" target="_blank" rel="noopener noreferrer">Trezor</a>.</p><p style="word-break: break-word; color: rgb(51, 51, 51);">并非所有的数字货币都可以存储在硬件钱包中。 我们建议您将代币或者数字货币存储在您控制的私钥钱包中。 我们不希望您的数字货币被盗！</p><p style="word-break: break-word; color: rgb(51, 51, 51);">为了避免欺诈，我们应该注意一些一般规则：</p><ol><li style="word-break: break-word; color: rgb(51, 51, 51);"><span style="color: rgb(0, 0, 0);">永远不要给出你的私钥！</span></li><li style="word-break: break-word; color: rgb(51, 51, 51);">在您的钱包上使用二次认证</li><li style="word-break: break-word; color: rgb(51, 51, 51);">下载较小项目的钱包时要当心，可能的话使用虚拟机。</li><li style="word-break: break-word; color: rgb(51, 51, 51);">切勿点击重定向到钱包的链接</li><li style="word-break: break-word; color: rgb(51, 51, 51);">在网站上注册时不要重复使用您的密码</li><li style="word-break: break-word; color: rgb(51, 51, 51);">不要直接给空投项目方打币<br></li></ol>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>想赚取更多推广的奖金?</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p><span style="color: rgb(51, 51, 51);">我们将对优秀的推广员将给出更多的奖励。每周我们将从候选人中选出一名在星云推广计划中表现最优秀的推广员。&nbsp;有意向申请优秀推广员的用户可以通过邮箱与我们联系。</span><span style="color: rgb(51, 51, 51);">我们的联系方式:&nbsp;</span><a href="mailto:support@mail.nasdrop.info" style="background-color: rgb(255, 255, 255);">support@mail.nasdrop.info</a><br></p>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel info-panel"><div class="panel-heading">
+                    <h3>列出你的空投项目!</h3>
+                </div><div class="panel-content" style="overflow: hidden; height: 0px;">
+                    <div class="info-content">
+                        <p>你想要在<a href="http://nasdrop.info">nasdrop.info</a>上列出你的空投项目吗?</p><p><span style="color: rgb(51, 51, 51);">在nasdrop.info上列出的项目是免费的。 因为我们在星云主网上有一个智能合约，并将该网站作为Dapp运行，所以您的空投仅仅需要几秒钟就能发布。请注意不要产生垃圾空投项目，否则你的星云地址将被列入黑名单。<br></span><br>去 <a href="new.html">创建你的空投吧</a>!</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function toggleVisibility(event) {
+            event.preventDefault();
+
+            var findAncestor = function (el, cls) {
+                while ((el = el.parentElement) && !el.classList.contains(cls));
+                return el;
+            }
+
+            var infoPanel = findAncestor(event.target, 'info-panel');
+
+            var panelContent = infoPanel.childNodes[1];
+
+            if (panelContent.style.overflow === "hidden") {
+                panelContent.style.overflow = '';
+                panelContent.style.height = '';
+            } else {
+                panelContent.style.overflow = 'hidden';
+                panelContent.style.height = '0px';
+            }
+        }
+
+        var elements = document.getElementsByClassName('panel-heading');
+        for (var index in elements) {
+            var element = document.getElementsByClassName('panel-heading')[index];
+
+            if (element.addEventListener) {
+                element.addEventListener('click', toggleVisibility);
+            }
+        }
+    </script>
+</section>
+
+<section>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="img/naslogo1.png" alt="" width="24" height="24">
+                <small class="d-block mb-3 text-muted">&copy; 2018</small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>相关资源</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="https://nebulas.io" target="_blank">星云官方网站</a></li>
+                    <li><a class="text-muted" href="https://explorer.nebulas.io" target="_blank">星云区块浏览器</a></li>
+                    <li><a class="text-muted" href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a></li>
+                    <li><a class="text-muted" href="https://yuxizhe.github.io/cdn/nasmail/#/" target="_blank">钱包余额提醒</a></li>
+                    <li><a class="text-muted" href="https://github.com/nebulasairdrop/nebulasairdrop.github.io" target="_blank">项目GitHub源码</a></li>
+                    <li><a class="text-muted" href="" id="contract">合约地址</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>联系我们</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="mailto:support@mail.nasdrop.info">发送邮件</a></li>
+                    <li><a class="text-muted">微信群<div><img src="promotion2.jpg" height="133px" width="100px" style="position: absolute"/></div></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</section>
+
+<script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+<script src="js/popper.min.js"></script>
+<script src="js/holder.min.js"></script>
+<script>
+    Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+    });
+    $("#contract").prop('href','https://explorer.nebulas.io/#/address/'+ dappAddress +'#/').prop('target', '_blank_');
+</script>
+
+<script>
+
+    "use strict";
+    //here we use neb.js to call the "get" function to search from the Dictionary
+    var nebulas = require("nebulas");
+    var Account = nebulas.Account;
+    var neb = new nebulas.Neb();
+    var Utils = nebulas.Utils;
+    var Unit = nebulas.Unit;
+    var Transaction = nebulas.Transaction;
+    neb.setRequest(new nebulas.HttpRequest(rpcURL));
+
+    // 搜索: 查找airdrops
+
+    var from = Account.NewAccount().getAddressString();
+
+    var len = 0;
+    var value = "0";
+    var nonce = "0";
+    var gas_price = 1000000;
+    var gas_limit = 2000000;
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
+    function getMasterBalance(mastersList, index, callback){
+        $.post(rpcURL + '/v1/user/accountstate', JSON.stringify({
+            "address": mastersList[index]
+        }), function (resp) {
+            function clearWait() {
+                clearInterval(wait);
+                var balance = parseInt((new BigNumber(resp.result.balance)).div(Math.pow(10, 18)));
+                refreshMasterRankingList(mastersList[index], balance);
+                callback(index + 1)
+            }
+            var wait = setInterval(clearWait, 250);
+        })
+    }
+
+    var topThree_1;
+    var fromIndex_1;
+
+    function getTopGoldMasters(){
+        var _contract = {
+            "function": "dump",
+            "args": "[" + goldMasterPrize[0] + "]"
+        };
+        var account = Account.NewAccount();
+        account.setPrivateKey(faucets[getRandomInt(0, 100)]);
+        neb.api.call(account.getAddressString(), dappAddress, value, nonce, gas_price, gas_limit, _contract).then(function (resp) {
+            if(resp && resp.result !== ''){
+                var masters = JSON.parse(JSON.parse(resp.result));
+                var mastersList = [];
+                for(var master in masters) {
+                    if(masters.hasOwnProperty(master)) {
+                        mastersList.push(master)
+                    }
+                }
+
+                var time = new Date();
+                var timeLastQuery = localStorage.getItem('time') || "0";
+                timeLastQuery = parseInt(timeLastQuery);
+                if(time.getMilliseconds() - timeLastQuery > 15000){
+                    localStorage.setItem('fromIndex_1' + goldMasterPrize[0], 0 + '');
+                    localStorage.setItem('topThreeJson_1' + goldMasterPrize[0], JSON.stringify({top1_1: {address: '', balance: zero}, top2_1:{address: '', balance: zero}, top3_1:{address: '', balance: zero}}));
+                } else {
+                    var topThreeJson_1 = localStorage.getItem('topThreeJson_1' + goldMasterPrize[0]);
+                    if (topThreeJson_1) topThree_1 = JSON.parse(topThreeJson_1);
+                    else topThree_1 = {top1_1: {address: '', balance: zero}, top2_1:{address: '', balance: zero}, top3_1:{address: '', balance: zero}};
+                    fromIndex_1 = localStorage.getItem('fromIndex_1' + goldMasterPrize[0]) || "0";
+                    fromIndex_1 = parseInt(fromIndex_1);
+
+                    if(fromIndex_1 > 2 && topThree_1.top1_1.address !== '' && topThree_1.top2_1.address !== '' && topThree_1.top3_1.address !== ''){
+                        top1_1.html(topThree_1.top1_1.address).prop('href', explorerURL + topThree_1.top1_1.address).prop('target', '_blank_');
+                        top1Val_1.prop('value', topThree_1.top1_1.balance);
+                        top1B_1.html((topThree_1.top1_1.balance) + ' NAS');
+
+                        top2_1.html(topThree_1.top2_1.address).prop('href', explorerURL + topThree_1.top2_1.address).prop('target', '_blank_');
+                        top2Val_1.prop('value', topThree_1.top2_1.balance);
+                        top2B_1.html((topThree_1.top2_1.balance) + ' NAS');
+
+                        top3_1.html(topThree_1.top3_1.address).prop('href', explorerURL + topThree_1.top3_1.address).prop('target', '_blank_');
+                        top3Val_1.prop('value', topThree_1.top3_1.balance);
+                        top3B_1.html((topThree_1.top3_1.balance) + ' NAS');
+
+                        $("#rankGoldMaster_1").attr("hidden", false);
+                        top1_1.attr("hidden", false);
+                        top1B_1.attr("hidden", false);
+                        top2_1.attr("hidden", false);
+                        top2B_1.attr("hidden", false);
+                        top3_1.attr("hidden", false);
+                        top3B_1.attr("hidden", false);
+
+                        lowerTop = topThree_1.top3_1.balance;
+                    }
+                }
+
+                var f = function(index){
+                    if(mastersList.length > index){
+                        getMasterBalance(mastersList, index, f);
+                    }
+                };
+
+                getMasterBalance(mastersList, parseInt(fromIndex_1), f);
+
+            } else {
+                console.log('No gold master')
+            }
+        }).catch(function (err) {
+            //cbSearch(err)
+            console.log("error: " + err.message)
+        });
+    }
+
+    var lowerTop = 0;
+    var zero = 0;
+
+    var top1_1 = $("#goldMasterTop1_1");
+    var top1Val_1 = $("#top1Val_1");
+    var top1B_1 = $("#goldMasterTop1B_1");
+    var top2_1 = $("#goldMasterTop2_1");
+    var top2Val_1 = $("#top2Val_1");
+    var top2B_1 = $("#goldMasterTop2B_1");
+    var top3_1 = $("#goldMasterTop3_1");
+    var top3Val_1 = $("#top3Val_1");
+    var top3B_1 = $("#goldMasterTop3B_1");
+    var GoldMasterNum = 0;
+    var goldMasterRankShow = false;
+    var explorerURL = 'https://explorer.nebulas.io/#/address/';
+    function refreshMasterRankingList(address, balance){
+        if(balance > lowerTop){
+            if(balance > top1Val_1.val()){
+                top3_1.html(top2_1.text()).prop('href', explorerURL + top2_1.text()).prop('target', '_blank_');
+                top3Val_1.prop('value', top2Val_1.val());
+                top3B_1.html(top2B_1.text());
+                topThree_1.top3_1.address = topThree_1.top2_1.address;
+                topThree_1.top3_1.balance = topThree_1.top2_1.balance;
+
+                top2_1.html(top1_1.text()).prop('href', explorerURL + top1_1.text()).prop('target', '_blank_');
+                top2Val_1.prop('value', top1Val_1.val());
+                top2B_1.html(top1B_1.text());
+                topThree_1.top2_1.address = topThree_1.top1_1.address;
+                topThree_1.top2_1.balance = topThree_1.top1_1.balance;
+
+                top1_1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+                top1Val_1.prop('value', balance);
+                top1B_1.html(balance + ' NAS');
+                topThree_1.top1_1.address = address;
+                topThree_1.top1_1.balance = balance;
+            } else if(balance > top2Val_1.val()){
+                top3_1.html(top2_1.text()).prop('href', explorerURL + top2_1.text()).prop('target', '_blank_');
+                top3Val_1.prop('value', top2Val_1.val());
+                top3B_1.html(top2B_1.text());
+                topThree_1.top3_1.address = topThree_1.top2_1.address;
+                topThree_1.top3_1.balance = topThree_1.top2_1.balance;
+
+                top2_1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+                top2Val_1.prop('value', balance);
+                top2B_1.html(balance + ' NAS');
+                topThree_1.top2_1.address = address;
+                topThree_1.top2_1.balance = balance;
+            } else if(balance > top3Val_1.val() ){
+                top3_1.html(address).prop('href', explorerURL + address).prop('target', '_blank_');
+                top3Val_1.prop('value', balance);
+                top3B_1.html((balance) + ' NAS');
+                topThree_1.top3_1.address = address;
+                topThree_1.top3_1.balance = balance;
+                lowerTop = balance;
+            }
+        }
+        GoldMasterNum ++;
+        fromIndex_1 ++;
+        var time = new Date();
+        localStorage.setItem('fromIndex_1' + goldMasterPrize[0], fromIndex_1 + '');
+        localStorage.setItem('topThreeJson_1' + goldMasterPrize[0], JSON.stringify(topThree_1));
+        localStorage.setItem('time', time.getMilliseconds());
+        if(GoldMasterNum > 4 && !goldMasterRankShow && topThree_1.top1_1.address !== '' && topThree_1.top2_1.address !== '' && topThree_1.top3_1.address !== ''){
+            $("#rankGoldMaster_1").attr("hidden", false);
+            top1_1.attr("hidden", false);
+            top1B_1.attr("hidden", false);
+            top2_1.attr("hidden", false);
+            top2B_1.attr("hidden", false);
+            top3_1.attr("hidden", false);
+            top3B_1.attr("hidden", false);
+        }
+    }
+
+    getTopGoldMasters();
+
+</script>
+
+</body>
+</html>
