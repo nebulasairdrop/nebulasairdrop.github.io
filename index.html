@@ -510,7 +510,7 @@
           var value = "0";
           var callFunction = "receive";
           var referrer = $("#referrer" + index).val();
-          if(referrer == "" || Account.isValidAddress(referrer)){
+          if(referrer === "" || Account.isValidAddress(referrer)){
             console.log(accountWallet);
             if(accountWallet === referrer){
               $(document).ready(function(){

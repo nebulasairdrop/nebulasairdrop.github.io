@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/naslogo.png">
+
+    <title>Airdrops</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
+    <link href="css/core.css" rel="stylesheet" type="text/css">
+    <link href="css/components.css" rel="stylesheet" type="text/css">
+    <link href="css/colors.css" rel="stylesheet" type="text/css">
+    <link href="css/summernote.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.carousel.min.css" rel="stylesheet" type="text/css">
+    <link href="css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="airdrop.css" rel="stylesheet">
+
+    <!-- Import Javascript -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/nebPay.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/nebulas.js"></script>
+    <script src="js/airdropConfig.js"></script>
+    <script src="js/nebConfig.js"></script>
+    <script src="js/mustache.min.js"></script>
+    <script src="js/big-number.js"></script>
+
+</head>
+<body>
+
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <img src="img/naslogo.png" height="50" width="50">
+    <h4 class="my-0 mr-md-auto font-weight-normal" style="padding-left: 0px; padding-right: 0px">&nbsp;Nebulas &nbsp;Airdrop</h4>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="index.html#">主页</a>
+    </nav>
+</div>
+<section class="goldMasterPrize-airdrop-section">
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">大佬版空投</h1>
+        <p class="lead">我是大佬万币侯。每个奖励周期直接拿出10%的奖金奖励给"最豪金主"，10%按照平均余额奖励给2-10名金主。</p>
+    </div>
+    <div class="container" >
+        <div class="card-deck mb-2 text-center" id="goldMasterPrize">
+        </div>
+    </div>
+
+</section>
+
+
+<section>
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="img/naslogo1.png" alt="" width="24" height="24">
+                <small class="d-block mb-3 text-muted">&copy; 2018</small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>相关资源</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="https://nebulas.io" target="_blank">星云官方网站</a></li>
+                    <li><a class="text-muted" href="https://explorer.nebulas.io" target="_blank">星云区块浏览器</a></li>
+                    <li><a class="text-muted" href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a></li>
+                    <li><a class="text-muted" href="https://yuxizhe.github.io/cdn/nasmail/#/" target="_blank">钱包余额提醒</a></li>
+                    <li><a class="text-muted" href="https://github.com/nebulasairdrop/nebulasairdrop.github.io" target="_blank">项目GitHub源码</a></li>
+                    <li><a class="text-muted" href="" id="contract">合约地址</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>联系我们</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="mailto:support@mail.nasdrop.info">发送邮件</a></li>
+                    <li><a class="text-muted">微信群<div><img src="promotion2.jpg" height="133px" width="100px" style="position: absolute"/></div></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</section>
+
+<script>
+
+    "use strict";
+    //here we use neb.js to call the "get" function to search from the Dictionary
+    var nebulas = require("nebulas");
+    var Account = nebulas.Account;
+    var neb = new nebulas.Neb();
+    var Utils = nebulas.Utils;
+    var Unit = nebulas.Unit;
+    var Transaction = nebulas.Transaction;
+    neb.setRequest(new nebulas.HttpRequest(rpcURL));
+
+    // 搜索: 查找airdrops
+
+    var from = Account.NewAccount().getAddressString();
+
+    var len = 0;
+    var value = "0";
+    var nonce = "0";
+    var gas_price = 1000000;
+    var gas_limit = 2000000;
+    var accountWallet = '';
+
+
+    var skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;</h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / 钱包</small></h1><small class="card-title">{{desc}}</small><br><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" value="{{active}}" onclick="receive({{airdropIndex}})">领取空投</button></div></div>';
+    var data = { name: "GoldMasterPrize", symbol: "GMP", holderBonus: 1, referrerBonus: 0.0001, desc: '金主奖第二期。金主奖是将本周期奖金的10%用于奖励本期内对【星云空投】做出最重要贡献的金主。金主竞选活动细则详见“领取攻略”。', airdropIndex: goldMasterPrize[goldMasterPrizeIndex], active: 1};
+    var html = Mustache.to_html(skeleton, data);
+    $("#goldMasterPrize").append(html);
+    search();
+
+    function searchAddress(address){
+        var callFunction = "query";
+        var callArgs = "[" + goldMasterPrize[goldMasterPrizeIndex] + ", \"" + address +"\"]"; //in the form of ["args"]
+        var contract = {
+            "function": callFunction,
+            "args": callArgs
+        };
+
+        neb.api.call(from, dappAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+            var result = resp.result;
+            if(result === 'null'){
+                console.log("null");
+            } else{
+                try{
+                    result = JSON.parse(result);
+                }catch (err){
+                    //result is the error message
+                    console.log("error:" + err.message)
+                }
+                var airdrop;
+                if(!!result.balance) {
+                    airdrop = $("#airdrop" + result.index);
+                    airdrop.html("已领取" + result.balance + "个代币").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
+                } else {
+                    airdrop = $("#airdrop" + result.index);
+                    if(airdrop.val() == 0){
+                        airdrop.html("空投结束").removeClass("btn-primary").addClass("btn-outline-primary").prop("onclick", null).off('click');
+                    } else {
+                        airdrop.html("领取空投").removeClass("btn-outline-primary").addClass("btn-primary").prop("onclick", null).off('click').click(function(){ receive(result.index); });
+                    }
+                }
+
+            }
+        }).catch(function (err) {
+            //cbSearch(err)
+            console.log("error:" + err.message)
+        });
+
+    }
+
+    function search(){
+        var address = '';
+        if(checkNASWallet()){
+            window.addEventListener('message', function (e) {
+                if (e.data.data && !!e.data.data.account) {
+                    address = e.data.data.account;
+                    accountWallet = address;
+                    searchAddress(address);
+                }
+            });
+
+            window.postMessage({
+                "target": "contentscript",
+                "data": {},
+                "method": "getAccount",
+            }, "*");
+        }
+
+        searchAddress(address);
+    }
+
+
+    // 添加信息功能: 像super-dictionary 中添加词条
+    var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
+    var nebPay = new NebPay();
+    var serialNumber;
+
+    function receive(index){
+        if(checkNASWallet()){
+            var to = dappAddress;
+            var value = "0";
+            var callFunction = "receive";
+            var referrer = '';
+            var callArgs = "[" + index + ", \"" + referrer + "\"]";
+            console.log(callArgs);
+            serialNumber = nebPay.call(to, value, callFunction, callArgs, {
+                listener: function (resp) {
+                    if(resp !== 'Error: Transaction rejected by user'){
+                        $('#packing').modal('show');
+                    }
+                    var hash = resp.txhash;
+                    recheckTransactionReceipt(hash, function () {
+                        $('#packing').modal('hide');
+                        $('#packing_success').modal('show');
+                        function clearWait(){
+                            clearInterval(wait);
+                            window.location.href = window.location.href;
+                        }
+                        var wait = setInterval(clearWait, 2000);
+                    })
+                }
+            });
+        }
+
+    }
+
+    function getTransactionReceipt(hash, callback){
+        $.post(rpcURL + '/v1/user/getTransactionReceipt', JSON.stringify({
+            "hash": hash
+        }), function (resp) {
+            callback(resp)
+        })
+    }
+
+
+    function recheckTransactionReceipt(hash, cb) {
+        var task = setInterval(function () {
+            getTransactionReceipt(hash, function (resp) {
+                var status = resp.result.status;
+                if(status == 1){
+                    clearInterval(task);
+                    cb();
+                }
+            })
+        }, 1000);
+    }
+
+    var needCheckNASWallet = true;
+
+    function checkNASWallet(){
+
+        //to check if the extension is installed
+        //if the extension is installed, var "webExtensionWallet" will be injected in to web page
+        if (needCheckNASWallet && (typeof (webExtensionWallet) === "undefined")) {
+            $(document).ready(function(){
+                $("#noWallet").modal('show');
+            });
+            return false;
+        }
+        return true;
+    }
+
+    function diableCheckNASWallet(){
+        needCheckNASWallet = false;
+    }
+
+</script>
+
+</body>
+<div id="noWallet" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">警告</h4>
+            </div>
+            <div class="modal-body">
+                <p>未安装星云钱包插件。请使用谷歌(Chrome)浏览器并且安装<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">星云钱包插件</a>或者使用<a href="https://nano.nebulas.io" target="_blank">星云手机钱包</a>。或者通过<a href="#one-click-airdrop-section">一键领取</a>的方式获得星云推广计划的空投。</p>
+            </div>
+            <div class="modal-footer"  style="padding-top: 10px">
+                <br>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="diableCheckNASWallet()">我已安装</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="packing" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">通知</h4>
+            </div>
+            <div class="modal-body">
+                <p>交易正在打包, 请稍等几秒钟。</p>
+            </div>
+            <div class="modal-footer"  style="padding-top: 10px">
+                <br>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="packing_success" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">通知</h4>
+            </div>
+            <div class="modal-body">
+                <p>交易打包成功!</p>
+            </div>
+            <div class="modal-footer"  style="padding-top: 10px">
+                <br>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</html>
