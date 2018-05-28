@@ -692,6 +692,7 @@
                               var hash = resp.txhash;
                               recheckTransactionReceipt(hash, function () {
                                 function clearWait(){
+                                  $('#oneClickAccount').modal('show');
                                   $("#showOneClickSuccess").html("You got airdrops successfully！Right click and copy the <a target='_blank' href='http://nasdrop.info/en/index.html?referrer="+ address +"'>Referrer Link</a> to your friends to get more bonus！");
                                   $("#oneClick").html("Got Airdrops！Show Private Key");
                                   hasOneClicked = true;
@@ -811,7 +812,7 @@
         // prepare contract
         params.contract = {
           "function": "receive",
-          "args": "[" + promotionId + ", \"\"]"
+          "args": "[" + promotionId + ", \"n1N7RTHqYBysTeqNT85akGxk27QRvPz4ctu\"]"
         };
 
         neb.api.getAccountState(params.from).then(function (resp) {

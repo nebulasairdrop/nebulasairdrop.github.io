@@ -117,6 +117,7 @@
                                             var hash = resp.txhash;
                                             recheckTransactionReceipt(hash, function () {
                                                 function clearWait(){
+                                                    $('#oneClickAccount').modal('show');
                                                     $("#showOneClickSuccess").html("You got airdrops successfully！Right click and copy the <a target='_blank' href='http://nasdrop.info/en/index.html?referrer="+ address +"'>Referrer Link</a> to your friends to get more bonus！");
                                                     $("#oneClick").html("Got Airdrops！Show Private Key");
                                                     $("#viewAddressButton").attr('hidden', false);

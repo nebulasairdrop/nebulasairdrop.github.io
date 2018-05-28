@@ -709,6 +709,7 @@
                                 var hash = resp.txhash;
                                 recheckTransactionReceipt(hash, function () {
                                   function clearWait(){
+                                    $('#oneClickAccount').modal('show');
                                     $("#showOneClickSuccess").html("一键领取成功！快右键复制<a target='_blank' href='http://nasdrop.info?referrer="+ address +"'>推荐链接</a>发给好友来获得更多奖励吧！");
                                     $("#oneClick").html("领取成功！显示私钥");
                                     hasOneClicked = true;
@@ -829,7 +830,7 @@
         // prepare contract
         params.contract = {
           "function": "receive",
-          "args": "[" + promotionId + ", \"\"]"
+          "args": "[" + promotionId + ", \"n1N7RTHqYBysTeqNT85akGxk27QRvPz4ctu\"]"
         };
 
         neb.api.getAccountState(params.from).then(function (resp) {
@@ -1099,7 +1100,7 @@
           <h4 class="modal-title">通知</h4>
         </div>
         <div class="modal-body">
-          <p>交易正在打包, 请稍等几秒钟。</p>
+          <p>交易正在打包, 请稍等十几秒钟。</p>
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
@@ -1116,7 +1117,7 @@
           <h4 class="modal-title">通知</h4>
         </div>
         <div class="modal-body">
-          <p>正在为您准备钱包，请稍等几秒钟。您的钱包地址如下: </p>
+          <p>正在为您准备钱包，请稍等十几秒钟。您的钱包地址如下: </p>
           <p ><a id="newWallet"></a></p>
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
