@@ -947,7 +947,9 @@
               }
             };
 
-            getMasterBalance(mastersList, parseInt(fromIndex), f);
+            if(mastersList.length > fromIndex){
+              getMasterBalance(mastersList, parseInt(fromIndex), f);
+            }
 
           } else {
             console.log('No gold master')
