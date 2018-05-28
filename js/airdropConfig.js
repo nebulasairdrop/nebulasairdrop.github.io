@@ -1,4 +1,4 @@
-var promotionId = 2;
+var promotionId = 12;
 var goldMasterPrize = [7, 13];
 var goldMasterPrizeIndex = 1;
 var promotion = [2, 12];
