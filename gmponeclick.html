@@ -108,11 +108,11 @@
     var accountWallet = '';
 
 
-    var skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;</h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / 钱包</small></h1><small class="card-title">{{desc}}</small><br><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" value="{{active}}" onclick="receive(13)">领取空投</button></div></div>';
+    var skeleton = '<div class="card mb-4 box-shadow"><div class="card-header"><h5 class="my-0 font-weight-normal">{{name}}&nbsp;</h5></div><div class="card-body"><h1 class="card-title pricing-card-title"><a>{{holderBonus}}</a> {{symbol}} <small class="text-muted"> / 钱包</small></h1><small class="card-title">{{desc}}</small><br><br><input name="airdropIndex" type="hidden" value="{{airdropIndex}}"><button type="button" class="btn btn-lg btn-block btn-primary" id="airdrop{{airdropIndex}}" value="{{active}}" onclick="receive(airdropIndex)">领取空投</button></div></div>';
     var data = { name: "GoldMasterPrize", symbol: "GMP", holderBonus: 1, referrerBonus: 0.0001, desc: '金主奖第二期。金主奖是将本周期奖金的10%用于奖励本期内对【星云空投】做出最重要贡献的金主。金主竞选活动细则详见“领取攻略”。', airdropIndex: goldMasterPrize[goldMasterPrizeIndex], active: 1};
     var html = Mustache.to_html(skeleton, data);
     $("#goldMasterPrize").append(html);
-    search();
+//    search();
 
     function searchAddress(address){
         var callFunction = "query";
@@ -188,7 +188,6 @@
             var callFunction = "receive";
             var referrer = '';
             var callArgs = "[" + index + ", \"" + referrer + "\"]";
-            console.log(callArgs);
             serialNumber = nebPay.call(to, value, callFunction, callArgs, {
                 listener: function (resp) {
                     if(resp !== 'Error: Transaction rejected by user'){
@@ -219,13 +218,13 @@
     }
 
 
-    function recheckTransactionReceipt(hash, cb) {
+    function recheckTransactionReceipt(hash, callback) {
         var task = setInterval(function () {
             getTransactionReceipt(hash, function (resp) {
                 var status = resp.result.status;
                 if(status == 1){
                     clearInterval(task);
-                    cb();
+                    callback();
                 }
             })
         }, 1000);
