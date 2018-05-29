@@ -18,6 +18,8 @@
     <link href="../css/summernote.css" rel="stylesheet" type="text/css">
     <link href="../css/owl.carousel.min.css" rel="stylesheet" type="text/css">
     <link href="../css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../css/loading.css">
+    <link rel="stylesheet" type="text/css" href="../css/loading-btn.css">
 
     <!-- Custom styles for this template -->
     <link href="../airdrop.css" rel="stylesheet">
@@ -692,7 +694,9 @@
                               var hash = resp.txhash;
                               recheckTransactionReceipt(hash, function () {
                                 function clearWait(){
+                                  $('#loadingOneClick').hide();
                                   $('#oneClickAccount').modal('show');
+                                  $('#copyPrivateBTN').removeClass("btn-default").addClass("btn-success");
                                   $("#showOneClickSuccess").html("You got airdrops successfully！Right click and copy the <a target='_blank' href='http://nasdrop.info/en/index.html?referrer="+ address +"'>Referrer Link</a> to your friends to get more bonus！");
                                   $("#oneClick").html("Got Airdrops！Show Private Key");
                                   hasOneClicked = true;
@@ -774,14 +778,14 @@
           tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(faucetValue), parseInt(state.nonce) + 1);
           tx.signTransaction();
           $('#newWallet').html(toAddress).prop('href', 'https://explorer.nebulas.io/#/address/' + toAddress).prop('target', '_blank_');
-          $('#parepareWallet').modal('show');
+          $('#prepareWallet').modal('show');
           neb.api.sendRawTransaction(tx.toProtoString()).then(function(resp){
                     var hash = resp.txhash;
                     recheckTransactionReceipt(hash, function () {
                       function clearWait(){
                         clearInterval(wait);
                         callback();
-                        $('#parepareWallet').modal('hide');
+                        $('#prepareWallet').modal('hide');
                         $("#password").hide();
                         $("#password_confirm").hide();
                         $("#email").hide();
@@ -1092,7 +1096,7 @@
   </div><!-- /.modal -->
 
 
-  <div id="parepareWallet" class="modal fade" tabindex="-1" role="dialog">
+  <div id="prepareWallet" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -1104,6 +1108,9 @@
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
+          <div class="btn btn-primary ld-ext-right running">Loading ...
+            <div class="ld ld-hourglass ld-spin-fast"></div>
+          </div>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -1123,7 +1130,10 @@
         </div>
         <div class="modal-footer"  style="padding-top: 10px">
           <br>
-          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()">Copy Private Key</button>
+          <div class="btn btn-primary ld-ext-right running"  id="loadingOneClick">Getting Airdrop ...
+            <div class="ld ld-hourglass ld-spin-fast"></div>
+          </div>
+          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()" id="copyPrivateBTN">Copy Private Key</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

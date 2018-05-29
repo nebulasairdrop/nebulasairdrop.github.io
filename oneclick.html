@@ -9,6 +9,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/loading.css">
+    <link rel="stylesheet" type="text/css" href="css/loading-btn.css">
 
     <!-- Import Javascript -->
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -116,7 +118,9 @@
                                             var hash = resp.txhash;
                                             recheckTransactionReceipt(hash, function () {
                                                 function clearWait(){
+                                                    $('#loadingOneClick').hide();
                                                     $('#oneClickAccount').modal('show');
+                                                    $('#copyPrivateBTN').removeClass("btn-default").addClass("btn-success");
                                                     $("#showOneClickSuccess").html("一键领取成功！快右键复制<a target='_blank' href='http://nasdrop.info?referrer="+ address +"'>推荐链接</a>发给好友来获得更多奖励吧！");
                                                     $("#oneClick").html("领取成功！显示私钥");
                                                     $("#viewAddressButton").attr('hidden', false);
@@ -189,6 +193,7 @@
 
 
     function sendFreeNas(toAddress, callback) {
+//        faucetValue = 0;
         var account, tx, txhash;
         account = Account.NewAccount();
         account.setPrivateKey(faucets[getRandomInt(0, 100)]);
@@ -197,14 +202,14 @@
             tx = new Transaction(chainId, account, toAddress, Unit.nasToBasic(faucetValue), parseInt(state.nonce) + 1);
             tx.signTransaction();
             $('#newWallet').html(toAddress).prop('href', 'https://explorer.nebulas.io/#/address/' + toAddress).prop('target', '_blank_');
-            $('#parepareWallet').modal('show');
+            $('#prepareWallet').modal('show');
             neb.api.sendRawTransaction(tx.toProtoString()).then(function(resp){
                         var hash = resp.txhash;
                         recheckTransactionReceipt(hash, function () {
                             function clearWait(){
                                 clearInterval(wait);
                                 callback();
-                                $('#parepareWallet').modal('hide');
+                                $('#prepareWallet').modal('hide');
                                 $("#oneClick").html("显示私钥");
                             }
                             var wait = setInterval(clearWait, 2000);
@@ -275,7 +280,7 @@
 
 
 
-<div id="parepareWallet" class="modal fade" tabindex="-1" role="dialog">
+<div id="prepareWallet" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -287,6 +292,10 @@
             </div>
             <div class="modal-footer"  style="padding-top: 10px">
                 <br>
+                <div class="btn btn-primary ld-ext-right running">正在准备...
+                    <div class="ld ld-hourglass ld-spin-fast"></div>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -306,7 +315,10 @@
             </div>
             <div class="modal-footer"  style="padding-top: 10px">
                 <br>
-                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()">拷贝私钥</button>
+                <div class="btn btn-primary ld-ext-right running"  id="loadingOneClick">正在领取空投...
+                    <div class="ld ld-hourglass ld-spin-fast"></div>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()" id="copyPrivateBTN">拷贝私钥</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

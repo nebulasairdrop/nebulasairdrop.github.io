@@ -18,9 +18,12 @@
     <link href="css/summernote.css" rel="stylesheet" type="text/css">
     <link href="css/owl.carousel.min.css" rel="stylesheet" type="text/css">
     <link href="css/owl.theme.default.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="css/loading.css">
+    <link rel="stylesheet" type="text/css" href="css/loading-btn.css">
 
     <!-- Custom styles for this template -->
     <link href="airdrop.css" rel="stylesheet">
+
 
     <!-- Import Javascript -->
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -344,41 +347,6 @@
     </div><!-- /.modal -->
 
 
-    <div id="invalidAddress" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">警告</h4>
-          </div>
-          <div class="modal-body">
-            <p>星云账号地址格式错误!</p>
-          </div>
-          <div class="modal-footer"  style="padding-top: 10px">
-            <br>
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div id="invalidReferrer" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">警告</h4>
-          </div>
-          <div class="modal-body">
-            <p>推荐人不能是自己!</p>
-          </div>
-          <div class="modal-footer"  style="padding-top: 10px">
-            <br>
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
     <div id="packing" class="modal fade" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -390,61 +358,9 @@
           </div>
           <div class="modal-footer"  style="padding-top: 10px">
             <br>
-            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div id="parepareWallet" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">通知</h4>
-          </div>
-          <div class="modal-body">
-            <p>正在为您准备钱包，请稍等十几秒钟。您的钱包地址如下: </p>
-            <p ><a id="newWallet"></a></p>
-          </div>
-          <div class="modal-footer"  style="padding-top: 10px">
-            <br>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-    <div id="oneClickAccount" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">通知</h4>
-          </div>
-          <div class="modal-body">
-            <p ><a id="showOneClickSuccess"></a></p>
-            <p>请妥善保管好您的私钥和记下您设置的密码！在保存好您的私钥前请勿刷新页面，否则私钥将丢失！</p>
-            <p><a id="newWalletAddress"></a></p>
-            <textarea id="newWalletKey"></textarea>
-          </div>
-          <div class="modal-footer"  style="padding-top: 10px">
-            <br>
-            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="copyPrivateKey()">拷贝私钥</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-
-
-    <div id="oneClickFail" class="modal fade" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">通知</h4>
-          </div>
-          <div class="modal-body">
-            <p>一键领取失败！请按照步骤领取空投！</p>
-          </div>
-          <div class="modal-footer"  style="padding-top: 10px">
-            <br>
+            <div class="btn btn-primary ld-ext-right running">正在打包...
+              <div class="ld ld-hourglass ld-spin-fast"></div>
+            </div>
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
           </div>
         </div><!-- /.modal-content -->
