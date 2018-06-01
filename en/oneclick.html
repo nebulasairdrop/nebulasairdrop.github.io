@@ -135,30 +135,20 @@
                                                             min: 1e14,
                                                             enable: true,
                                                             other: '',
-                                                            address: '',
+                                                            nickname: '',
                                                             type: '1'};
                                                         user.email = email;
                                                         user.address = address;
-                                                        var content = encodeURI(JSON.stringify(user));
-                                                        var callArgs = [content];
+                                                        var content = JSON.stringify(user);
+                                                        var callArgs = JSON.stringify([content]);
                                                         var gTx2 = new nebulas.Transaction(chainId,
                                                                 newAccount,
-                                                                "n1peCGJAr1BVtQoPZiheA6PfcTHBauYzWkq", 0, params.nonce + 1, params.gasPrice, params.gasLimit, {
+                                                                "n1g8KfN42QuhNyFjueNWyw46c5qFtWHN4aD", 0, params.nonce + 1, params.gasPrice, params.gasLimit, {
                                                                     "function": callFunction,
-                                                                    "args": JSON.stringify(callArgs)
+                                                                    "args": callArgs
                                                                 });
                                                         gTx2.signTransaction();
                                                         neb.api.sendRawTransaction(gTx2.toProtoString());
-                                                        var serialNumber = nebPay.call(
-                                                                dappAddress,
-                                                                0,
-                                                                callFunction,
-                                                                JSON.stringify(callArgs),
-                                                                {
-                                                                    listener: waitSubmit
-                                                                }
-                                                        )
-
                                                     }
                                                 }
                                                 var wait = setInterval(clearWait, 2000);
